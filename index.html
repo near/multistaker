@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>MultiStaker</title><link rel="stylesheet" href="style.2484efd3.css"><script src="script.4a403786.js" defer></script></head><body> <h1>Tool to stake many accounts with one Ledger</h1> <script id="template" type="x-tmpl-mustache">
+      <input id="ledger-start" placeholder="path start 44'/397'/0'/0'/1'" value="44'/397'/0'/0'/1'" />
+      <input id="ledger-end" placeholder="path end 44'/397'/0'/0'/5'" value="44'/397'/0'/0'/1'" />
+      <button onclick="addLedgerPath()">Add Ledger paths</button>
+      <h2>Accounts</h2>
+      <table>
+        <thead>
+            <tr>
+              <th>Path</th>
+              <th>Account Id</th>
+              <th>Lockup Id</th>
+              <th>Amount</th>
+              <th>Pool</th>
+              <th>Deposited amount</th>
+              <th>Total staked amount</th>
+            </tr>
+        </thead>
+        {{#accounts}}
+            <tr>
+                <td>{{ path }}</td>
+                <td>{{ accountId }}</td>
+                <td>{{ lockupAccountId }}</td> 
+                <td>{{ amount }}</td>
+                <td>{{ pool }}</td>
+                <td>{{ depositedAmount }}</td>
+                <td>{{ stakedAmount }}</td>
+            </tr>
+        {{/accounts}}
+      </table>
+      <h2>History</h2>
+      Last stake time: {{ lastStakeTime }}
+      Elapsed (min): {{ elapsedMin }}
+      <h2>Select pool</h2>
+      <div>
+        <select id="select-account-id">
+            {{#accounts}}
+              <option value="{{ accountId }}">{{ path }} -- {{ accountId }}</option>
+            {{/accounts}}
+        </select>
+      </div>
+      <div>
+        <select style="width: 200px; float: left;" onchange="this.nextElementSibling.value=this.value">
+          <option></option>
+        </select>
+        <input id="select-pool-id" style="width: 175px; margin-left: -199px; margin-top: 1px; border: none; float: left;"/>
+      </div>
+      <button onclick="selectPool()">Select Pool</button>
+      <h2>Stake</h2>
+      <div>
+        <select id="stake-account-id">
+            {{#accounts}}
+              <option value="{{ accountId }}">{{ path }} -- {{ accountId }}</option>
+            {{/accounts}}
+        </select>
+      </div>
+      <input id="stake-amount" placeholder="Amount in $NEAR" />
+      <button onclick="stake()">Stake</button>
+    </script> <div id="accounts"></div> </body></html>
