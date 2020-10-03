@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>MultiStaker</title>
+    
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    
+    <!-- import the webpage's javascript file -->
+    <script src="/script.js" defer></script>
+  </head>  
+  <body>
+    <h1>Tool to stake many accounts with one Ledger</h1>
+
+    <script id="template" type="x-tmpl-mustache">
+      <table>
+        <tr>
+            <td>Path</td>
+            <td>Account Id</td>
+            <td>Lockup Id</td>
+            <td>Amount</td>
+        </tr>
+        {{#accounts}}
+            <tr>
+                <td>{{ path }}</td>
+                <td>{{ accountId }}</td>
+                <td>{{ 
+            </tr>
+        {{/accounts}}
+      </ul>
+      <input id="path" />
+      <button onclick="addPath()">Add Ledger path</button>
+    </script>
+
+    <div id="accounts"></div>
+  </body>
+</html>
