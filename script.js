@@ -143,9 +143,9 @@ async function addLedgerPath() {
         try {
             let publicKey = await client.getPublicKey(path);
             let publicKeyStr = 'ed25519:' + encode(Buffer.from(publicKey));
-            let curAccounts = await getAccountsFromKey(publicKeyStr) + [];
+            let curAccounts = await getAccountsFromKey(publicKeyStr);
             const implicitAccount = Buffer.from(publicKey).toString('hex');
-            if (await accountExists(implicitAccount)) {
+            if (await accountExists(window.near.connection, implicitAccount)) {
                 curAccounts.push(implicitAccount);
             }
             console.log(path, publicKeyStr, curAccounts);
