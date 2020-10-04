@@ -24784,22 +24784,20 @@ function _addLedgerPath() {
                       return getAccountsFromKey(publicKeyStr);
 
                     case 8:
-                      _context6.t0 = _context6.sent;
-                      _context6.t1 = [];
-                      curAccounts = _context6.t0 + _context6.t1;
+                      curAccounts = _context6.sent;
                       implicitAccount = Buffer.from(publicKey).toString('hex');
-                      _context6.next = 14;
-                      return accountExists(implicitAccount);
+                      _context6.next = 12;
+                      return accountExists(window.near.connection, implicitAccount);
 
-                    case 14:
+                    case 12:
                       if (!_context6.sent) {
-                        _context6.next = 16;
+                        _context6.next = 14;
                         break;
                       }
 
                       curAccounts.push(implicitAccount);
 
-                    case 16:
+                    case 14:
                       console.log(path, publicKeyStr, curAccounts);
                       curAccounts.forEach(function (accountId) {
                         if (!accountIds.includes(accountId)) {
@@ -24810,20 +24808,20 @@ function _addLedgerPath() {
                           });
                         }
                       });
-                      _context6.next = 23;
+                      _context6.next = 21;
                       break;
 
-                    case 20:
-                      _context6.prev = 20;
-                      _context6.t2 = _context6["catch"](1);
-                      console.log("".concat(path, " failed: ").concat(_context6.t2));
+                    case 18:
+                      _context6.prev = 18;
+                      _context6.t0 = _context6["catch"](1);
+                      console.log("".concat(path, " failed: ").concat(_context6.t0));
 
-                    case 23:
+                    case 21:
                     case "end":
                       return _context6.stop();
                   }
                 }
-              }, _loop, null, [[1, 20]]);
+              }, _loop, null, [[1, 18]]);
             });
             i = 0;
 
@@ -25126,7 +25124,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55555" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59096" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
