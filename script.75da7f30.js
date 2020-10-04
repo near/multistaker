@@ -24440,6 +24440,8 @@ var _mustache = _interopRequireDefault(require("mustache"));
 
 var _ledger = require("./ledger.js");
 
+var _utils = require("near-api-js/lib/utils");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -24484,6 +24486,10 @@ window.onload = function () {
 
 function accountToLockup(masterAccountId, accountId) {
   return "".concat((0, _jsSha.default)(Buffer.from(accountId)).toString('hex').slice(0, 40), ".").concat(masterAccountId);
+}
+
+function formatFloat(value) {
+  return nearAPI.utils.format.formatNearAmount(nearAPI.utils.format.parseNearAmount(value.toString()), 2);
 }
 
 function getAccounts() {
@@ -24538,131 +24544,225 @@ function _accountExists() {
   return _accountExists.apply(this, arguments);
 }
 
+function fetchPools(_x3) {
+  return _fetchPools.apply(this, arguments);
+}
+
+function _fetchPools() {
+  _fetchPools = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(masterAccount) {
+    var result, pools, stakes, poolsWithFee, promises;
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.next = 2;
+            return masterAccount.connection.provider.sendJsonRpc('validators', [null]);
+
+          case 2:
+            result = _context4.sent;
+            pools = new Set();
+            stakes = new Map();
+            result.current_validators.forEach(function (validator) {
+              pools.add(validator.account_id);
+              stakes.set(validator.account_id, validator.stake);
+            });
+            result.next_validators.forEach(function (validator) {
+              return pools.add(validator.account_id);
+            });
+            result.current_proposals.forEach(function (validator) {
+              return pools.add(validator.account_id);
+            });
+            poolsWithFee = [];
+            promises = [];
+            pools.forEach(function (accountId) {
+              promises.push(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+                var stake, fee;
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                  while (1) {
+                    switch (_context3.prev = _context3.next) {
+                      case 0:
+                        stake = nearAPI.utils.format.formatNearAmount(stakes.get(accountId), 2);
+                        _context3.next = 3;
+                        return masterAccount.viewFunction(accountId, 'get_reward_fee_fraction', {});
+
+                      case 3:
+                        fee = _context3.sent;
+                        poolsWithFee.push({
+                          accountId: accountId,
+                          stake: stake,
+                          fee: "".concat(fee.numerator * 100 / fee.denominator, "%")
+                        });
+
+                      case 5:
+                      case "end":
+                        return _context3.stop();
+                    }
+                  }
+                }, _callee3);
+              }))());
+            });
+            _context4.next = 13;
+            return Promise.all(promises);
+
+          case 13:
+            return _context4.abrupt("return", poolsWithFee);
+
+          case 14:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4);
+  }));
+  return _fetchPools.apply(this, arguments);
+}
+
 function loadAccounts() {
   return _loadAccounts.apply(this, arguments);
 }
 
 function _loadAccounts() {
-  _loadAccounts = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-    var accounts, template, lastStakeTime, elapsedMin;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+  _loadAccounts = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+    var accounts, template, totalAmount, totalStaked, lastStakeTime, elapsedMin, account, pools;
+    return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
             accounts = getAccounts();
-            console.log("Accounts: ".concat(accounts));
             template = document.getElementById('template').innerHTML;
-            _context4.next = 5;
+            totalAmount = 0, totalStaked = 0;
+            _context6.next = 5;
             return Promise.all(accounts.map( /*#__PURE__*/function () {
-              var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref2) {
-                var publicKey, path, accountId, lockupAccountId, amount, depositedAmount, stakedAmount, pool, lockupAccount, state;
-                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+              var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(_ref3) {
+                var publicKey, path, accountId, lockupAccountId, amount, depositedAmount, stakedAmount, pool, lockupAccount, state, accountIdShort, lockupIdShort;
+                return regeneratorRuntime.wrap(function _callee5$(_context5) {
                   while (1) {
-                    switch (_context3.prev = _context3.next) {
+                    switch (_context5.prev = _context5.next) {
                       case 0:
-                        publicKey = _ref2.publicKey, path = _ref2.path, accountId = _ref2.accountId;
+                        publicKey = _ref3.publicKey, path = _ref3.path, accountId = _ref3.accountId;
                         lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
                         amount = 0, depositedAmount = 0, stakedAmount = 0;
                         pool = null;
-                        _context3.next = 6;
+                        _context5.next = 6;
                         return accountExists(window.near.connection, lockupAccountId);
 
                       case 6:
-                        if (!_context3.sent) {
-                          _context3.next = 34;
+                        if (!_context5.sent) {
+                          _context5.next = 36;
                           break;
                         }
 
-                        _context3.prev = 7;
-                        _context3.next = 10;
+                        _context5.prev = 7;
+                        _context5.next = 10;
                         return window.near.account(lockupAccountId);
 
                       case 10:
-                        lockupAccount = _context3.sent;
-                        _context3.next = 13;
+                        lockupAccount = _context5.sent;
+                        _context5.next = 13;
                         return lockupAccount.state();
 
                       case 13:
-                        state = _context3.sent;
+                        state = _context5.sent;
                         amount = nearAPI.utils.format.formatNearAmount(state.amount, 2);
-                        _context3.next = 17;
+                        _context5.next = 17;
                         return lockupAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id', {});
 
                       case 17:
-                        pool = _context3.sent;
-                        _context3.t0 = nearAPI.utils.format;
-                        _context3.next = 21;
+                        pool = _context5.sent;
+                        _context5.t0 = nearAPI.utils.format;
+                        _context5.next = 21;
                         return lockupAccount.viewFunction(lockupAccountId, 'get_known_deposited_balance');
 
                       case 21:
-                        _context3.t1 = _context3.sent;
-                        depositedAmount = _context3.t0.formatNearAmount.call(_context3.t0, _context3.t1, 2);
+                        _context5.t1 = _context5.sent;
+                        depositedAmount = _context5.t0.formatNearAmount.call(_context5.t0, _context5.t1, 2);
+                        totalAmount += parseFloat(amount.replaceAll(',', ''));
 
                         if (!pool) {
-                          _context3.next = 29;
+                          _context5.next = 31;
                           break;
                         }
 
-                        _context3.t2 = nearAPI.utils.format;
-                        _context3.next = 27;
+                        _context5.t2 = nearAPI.utils.format;
+                        _context5.next = 28;
                         return lockupAccount.viewFunction(pool, 'get_account_total_balance', {
                           "account_id": lockupAccountId
                         });
 
-                      case 27:
-                        _context3.t3 = _context3.sent;
-                        stakedAmount = _context3.t2.formatNearAmount.call(_context3.t2, _context3.t3, 2);
-
-                      case 29:
-                        _context3.next = 34;
-                        break;
+                      case 28:
+                        _context5.t3 = _context5.sent;
+                        stakedAmount = _context5.t2.formatNearAmount.call(_context5.t2, _context5.t3, 2);
+                        totalStaked += parseFloat(stakedAmount.replaceAll(',', ''));
 
                       case 31:
-                        _context3.prev = 31;
-                        _context3.t4 = _context3["catch"](7);
-                        console.log(_context3.t4);
+                        _context5.next = 36;
+                        break;
 
-                      case 34:
-                        return _context3.abrupt("return", {
+                      case 33:
+                        _context5.prev = 33;
+                        _context5.t4 = _context5["catch"](7);
+                        console.log(_context5.t4);
+
+                      case 36:
+                        accountIdShort = accountId.length > 32 ? "".concat(accountId.slice(0, 4), "..").concat(accountId.slice(-4)) : accountId;
+                        lockupIdShort = "".concat(lockupAccountId.slice(0, 4), "..");
+                        return _context5.abrupt("return", {
                           publicKey: publicKey,
                           path: path,
                           accountId: accountId,
+                          accountIdShort: accountIdShort,
                           lockupAccountId: lockupAccountId,
+                          lockupIdShort: lockupIdShort,
                           amount: amount,
                           depositedAmount: depositedAmount,
                           stakedAmount: stakedAmount,
                           pool: pool
                         });
 
-                      case 35:
+                      case 39:
                       case "end":
-                        return _context3.stop();
+                        return _context5.stop();
                     }
                   }
-                }, _callee3, null, [[7, 31]]);
+                }, _callee5, null, [[7, 33]]);
               }));
 
-              return function (_x7) {
-                return _ref3.apply(this, arguments);
+              return function (_x8) {
+                return _ref4.apply(this, arguments);
               };
             }()));
 
           case 5:
-            accounts = _context4.sent;
+            accounts = _context6.sent;
+            totalAmount += totalStaked;
             lastStakeTime = new Date(window.localStorage.getItem('last-stake-time'));
             elapsedMin = Math.round((new Date() - lastStakeTime) / 1000) / 60;
+            _context6.next = 11;
+            return window.near.account('lockup.near');
+
+          case 11:
+            account = _context6.sent;
+            _context6.next = 14;
+            return fetchPools(account);
+
+          case 14:
+            pools = _context6.sent;
+            console.log(pools);
             document.getElementById('accounts').innerHTML = _mustache.default.render(template, {
               accounts: accounts,
               lastStakeTime: lastStakeTime,
-              elapsedMin: elapsedMin
+              elapsedMin: elapsedMin,
+              totalAmount: formatFloat(totalAmount),
+              totalStaked: formatFloat(totalStaked),
+              pools: pools
             });
 
-          case 9:
+          case 17:
           case "end":
-            return _context4.stop();
+            return _context6.stop();
         }
       }
-    }, _callee4);
+    }, _callee6);
   }));
   return _loadAccounts.apply(this, arguments);
 }
@@ -24710,30 +24810,30 @@ function iterPath(start, end) {
   });
 }
 
-function getAccountsFromKey(_x3) {
+function getAccountsFromKey(_x4) {
   return _getAccountsFromKey.apply(this, arguments);
 }
 
 function _getAccountsFromKey() {
-  _getAccountsFromKey = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(publicKey) {
+  _getAccountsFromKey = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(publicKey) {
     var result;
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
-            _context5.next = 2;
+            _context7.next = 2;
             return fetch("https://helper.mainnet.near.org/publicKey/".concat(publicKey, "/accountsIndexer"));
 
           case 2:
-            result = _context5.sent;
-            return _context5.abrupt("return", result.json());
+            result = _context7.sent;
+            return _context7.abrupt("return", result.json());
 
           case 4:
           case "end":
-            return _context5.stop();
+            return _context7.stop();
         }
       }
-    }, _callee5);
+    }, _callee7);
   }));
   return _getAccountsFromKey.apply(this, arguments);
 }
@@ -24743,12 +24843,12 @@ function addLedgerPath() {
 }
 
 function _addLedgerPath() {
-  _addLedgerPath = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+  _addLedgerPath = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
     var start, end, paths, client, accounts, accountIds, _loop, i;
 
-    return regeneratorRuntime.wrap(function _callee6$(_context7) {
+    return regeneratorRuntime.wrap(function _callee8$(_context9) {
       while (1) {
-        switch (_context7.prev = _context7.next) {
+        switch (_context9.prev = _context9.next) {
           case 0:
             start = document.querySelector('#ledger-start').value;
             end = document.querySelector('#ledger-end').value;
@@ -24756,42 +24856,42 @@ function _addLedgerPath() {
             paths = iterPath(start, end);
             console.log(paths);
             alert("Found: ".concat(paths.length, " paths. Now need to fetch from Ledger. If you want to cancel, refresh the page."));
-            _context7.next = 8;
+            _context9.next = 8;
             return (0, _ledger.createLedgerU2FClient)();
 
           case 8:
-            client = _context7.sent;
+            client = _context9.sent;
             accounts = getAccounts();
-            accountIds = accounts.map(function (_ref4) {
-              var accountId = _ref4.accountId;
+            accountIds = accounts.map(function (_ref5) {
+              var accountId = _ref5.accountId;
               return accountId;
             });
             _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop(i) {
               var path, publicKey, publicKeyStr, curAccounts, implicitAccount;
-              return regeneratorRuntime.wrap(function _loop$(_context6) {
+              return regeneratorRuntime.wrap(function _loop$(_context8) {
                 while (1) {
-                  switch (_context6.prev = _context6.next) {
+                  switch (_context8.prev = _context8.next) {
                     case 0:
                       path = paths[i];
-                      _context6.prev = 1;
-                      _context6.next = 4;
+                      _context8.prev = 1;
+                      _context8.next = 4;
                       return client.getPublicKey(path);
 
                     case 4:
-                      publicKey = _context6.sent;
+                      publicKey = _context8.sent;
                       publicKeyStr = 'ed25519:' + (0, _bs.encode)(Buffer.from(publicKey));
-                      _context6.next = 8;
+                      _context8.next = 8;
                       return getAccountsFromKey(publicKeyStr);
 
                     case 8:
-                      curAccounts = _context6.sent;
+                      curAccounts = _context8.sent;
                       implicitAccount = Buffer.from(publicKey).toString('hex');
-                      _context6.next = 12;
+                      _context8.next = 12;
                       return accountExists(window.near.connection, implicitAccount);
 
                     case 12:
-                      if (!_context6.sent) {
-                        _context6.next = 14;
+                      if (!_context8.sent) {
+                        _context8.next = 14;
                         break;
                       }
 
@@ -24808,17 +24908,17 @@ function _addLedgerPath() {
                           });
                         }
                       });
-                      _context6.next = 21;
+                      _context8.next = 21;
                       break;
 
                     case 18:
-                      _context6.prev = 18;
-                      _context6.t0 = _context6["catch"](1);
-                      console.log("".concat(path, " failed: ").concat(_context6.t0));
+                      _context8.prev = 18;
+                      _context8.t0 = _context8["catch"](1);
+                      console.log("".concat(path, " failed: ").concat(_context8.t0));
 
                     case 21:
                     case "end":
-                      return _context6.stop();
+                      return _context8.stop();
                   }
                 }
               }, _loop, null, [[1, 18]]);
@@ -24827,89 +24927,89 @@ function _addLedgerPath() {
 
           case 13:
             if (!(i < paths.length)) {
-              _context7.next = 18;
+              _context9.next = 18;
               break;
             }
 
-            return _context7.delegateYield(_loop(i), "t0", 15);
+            return _context9.delegateYield(_loop(i), "t0", 15);
 
           case 15:
             ++i;
-            _context7.next = 13;
+            _context9.next = 13;
             break;
 
           case 18:
             setAccounts(accounts);
-            _context7.next = 21;
+            _context9.next = 21;
             return loadAccounts();
 
           case 21:
           case "end":
-            return _context7.stop();
+            return _context9.stop();
         }
       }
-    }, _callee6);
+    }, _callee8);
   }));
   return _addLedgerPath.apply(this, arguments);
 }
 
-function setAccountSigner(_x4, _x5, _x6) {
+function setAccountSigner(_x5, _x6, _x7) {
   return _setAccountSigner.apply(this, arguments);
 }
 
 function _setAccountSigner() {
-  _setAccountSigner = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(contract, path, publicKey) {
+  _setAccountSigner = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(contract, path, publicKey) {
     var client, signer;
-    return regeneratorRuntime.wrap(function _callee9$(_context10) {
+    return regeneratorRuntime.wrap(function _callee11$(_context12) {
       while (1) {
-        switch (_context10.prev = _context10.next) {
+        switch (_context12.prev = _context12.next) {
           case 0:
-            _context10.next = 2;
+            _context12.next = 2;
             return (0, _ledger.createLedgerU2FClient)();
 
           case 2:
-            client = _context10.sent;
+            client = _context12.sent;
             publicKey = nearAPI.utils.PublicKey.fromString(publicKey);
             signer = {
               getPublicKey: function getPublicKey() {
-                return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-                  return regeneratorRuntime.wrap(function _callee7$(_context8) {
+                return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+                  return regeneratorRuntime.wrap(function _callee9$(_context10) {
                     while (1) {
-                      switch (_context8.prev = _context8.next) {
+                      switch (_context10.prev = _context10.next) {
                         case 0:
-                          return _context8.abrupt("return", publicKey);
+                          return _context10.abrupt("return", publicKey);
 
                         case 1:
                         case "end":
-                          return _context8.stop();
+                          return _context10.stop();
                       }
                     }
-                  }, _callee7);
+                  }, _callee9);
                 }))();
               },
               signMessage: function signMessage(message) {
-                return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+                return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
                   var signature;
-                  return regeneratorRuntime.wrap(function _callee8$(_context9) {
+                  return regeneratorRuntime.wrap(function _callee10$(_context11) {
                     while (1) {
-                      switch (_context9.prev = _context9.next) {
+                      switch (_context11.prev = _context11.next) {
                         case 0:
-                          _context9.next = 2;
+                          _context11.next = 2;
                           return client.sign(message, path);
 
                         case 2:
-                          signature = _context9.sent;
-                          return _context9.abrupt("return", {
+                          signature = _context11.sent;
+                          return _context11.abrupt("return", {
                             signature: signature,
                             publicKey: publicKey
                           });
 
                         case 4:
                         case "end":
-                          return _context9.stop();
+                          return _context11.stop();
                       }
                     }
-                  }, _callee8);
+                  }, _callee10);
                 }))();
               }
             };
@@ -24917,10 +25017,10 @@ function _setAccountSigner() {
 
           case 6:
           case "end":
-            return _context10.stop();
+            return _context12.stop();
         }
       }
-    }, _callee9);
+    }, _callee11);
   }));
   return _setAccountSigner.apply(this, arguments);
 }
@@ -24945,76 +25045,76 @@ function selectPool() {
 }
 
 function _selectPool() {
-  _selectPool = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+  _selectPool = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
     var accountId, _findAccount, path, publicKey, poolId, lockupAccountId, account;
 
-    return regeneratorRuntime.wrap(function _callee10$(_context11) {
+    return regeneratorRuntime.wrap(function _callee12$(_context13) {
       while (1) {
-        switch (_context11.prev = _context11.next) {
+        switch (_context13.prev = _context13.next) {
           case 0:
             accountId = document.querySelector('#select-account-id').value;
             _findAccount = findAccount(accountId), path = _findAccount.path, publicKey = _findAccount.publicKey;
 
             if (path) {
-              _context11.next = 5;
+              _context13.next = 5;
               break;
             }
 
             alert("How did you select this?");
-            return _context11.abrupt("return");
+            return _context13.abrupt("return");
 
           case 5:
             poolId = document.querySelector('#select-pool-id').value;
             lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
             console.log("Select ".concat(poolId, " for ").concat(path, " / ").concat(accountId, " / ").concat(lockupAccountId));
-            _context11.next = 10;
+            _context13.next = 10;
             return accountExists(window.near.connection, poolId);
 
           case 10:
-            if (_context11.sent) {
-              _context11.next = 13;
+            if (_context13.sent) {
+              _context13.next = 13;
               break;
             }
 
             alert("Pool ".concat(poolId, " doesn't exist"));
-            return _context11.abrupt("return");
+            return _context13.abrupt("return");
 
           case 13:
-            _context11.prev = 13;
-            _context11.next = 16;
+            _context13.prev = 13;
+            _context13.next = 16;
             return window.near.account(accountId);
 
           case 16:
-            account = _context11.sent;
-            _context11.next = 19;
+            account = _context13.sent;
+            _context13.next = 19;
             return setAccountSigner(account, path, publicKey);
 
           case 19:
-            _context11.next = 21;
+            _context13.next = 21;
             return account.functionCall(lockupAccountId, 'select_staking_pool', {
               "staking_pool_account_id": poolId
             }, '100000000000000');
 
           case 21:
-            _context11.next = 27;
+            _context13.next = 27;
             break;
 
           case 23:
-            _context11.prev = 23;
-            _context11.t0 = _context11["catch"](13);
-            console.log(_context11.t0);
-            alert(_context11.t0);
+            _context13.prev = 23;
+            _context13.t0 = _context13["catch"](13);
+            console.log(_context13.t0);
+            alert(_context13.t0);
 
           case 27:
-            _context11.next = 29;
+            _context13.next = 29;
             return loadAccounts();
 
           case 29:
           case "end":
-            return _context11.stop();
+            return _context13.stop();
         }
       }
-    }, _callee10, null, [[13, 23]]);
+    }, _callee12, null, [[13, 23]]);
   }));
   return _selectPool.apply(this, arguments);
 }
@@ -25024,12 +25124,12 @@ function stake() {
 }
 
 function _stake() {
-  _stake = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+  _stake = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
     var accountId, _findAccount2, path, publicKey, amount, lockupAccountId, account;
 
-    return regeneratorRuntime.wrap(function _callee11$(_context12) {
+    return regeneratorRuntime.wrap(function _callee13$(_context14) {
       while (1) {
-        switch (_context12.prev = _context12.next) {
+        switch (_context14.prev = _context14.next) {
           case 0:
             accountId = document.querySelector('#stake-account-id').value;
             _findAccount2 = findAccount(accountId), path = _findAccount2.path, publicKey = _findAccount2.publicKey;
@@ -25037,57 +25137,57 @@ function _stake() {
             console.log("Stake ".concat(amount, " from ").concat(path, " / ").concat(accountId));
             amount = nearAPI.utils.format.parseNearAmount(amount);
             lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
-            _context12.prev = 6;
-            _context12.next = 9;
+            _context14.prev = 6;
+            _context14.next = 9;
             return window.near.account(accountId);
 
           case 9:
-            account = _context12.sent;
-            _context12.next = 12;
+            account = _context14.sent;
+            _context14.next = 12;
             return account.viewFunction(lockupAccountId, 'get_staking_pool_account_id', {});
 
           case 12:
-            pool = _context12.sent;
+            pool = _context14.sent;
 
             if (pool) {
-              _context12.next = 16;
+              _context14.next = 16;
               break;
             }
 
             alert("Lockup ".concat(lockupAccountId, " doesn't have pool selected yet"));
-            return _context12.abrupt("return");
+            return _context14.abrupt("return");
 
           case 16:
-            _context12.next = 18;
+            _context14.next = 18;
             return setAccountSigner(account, path, publicKey);
 
           case 18:
-            _context12.next = 20;
+            _context14.next = 20;
             return account.functionCall(lockupAccountId, 'deposit_and_stake', {
               'amount': amount
             }, '200000000000000');
 
           case 20:
-            _context12.next = 26;
+            _context14.next = 26;
             break;
 
           case 22:
-            _context12.prev = 22;
-            _context12.t0 = _context12["catch"](6);
-            console.log(_context12.t0);
-            alert(_context12.t0);
+            _context14.prev = 22;
+            _context14.t0 = _context14["catch"](6);
+            console.log(_context14.t0);
+            alert(_context14.t0);
 
           case 26:
             window.localStorage.setItem('last-stake-time', new Date());
-            _context12.next = 29;
+            _context14.next = 29;
             return loadAccounts();
 
           case 29:
           case "end":
-            return _context12.stop();
+            return _context14.stop();
         }
       }
-    }, _callee11, null, [[6, 22]]);
+    }, _callee13, null, [[6, 22]]);
   }));
   return _stake.apply(this, arguments);
 }
@@ -25096,7 +25196,7 @@ window.nearAPI = nearAPI;
 window.addLedgerPath = addLedgerPath;
 window.selectPool = selectPool;
 window.stake = stake;
-},{"regenerator-runtime":"node_modules/regenerator-runtime/runtime.js","near-api-js":"node_modules/near-api-js/lib/browser-index.js","js-sha256":"node_modules/js-sha256/src/sha256.js","bs58":"node_modules/bs58/index.js","mustache":"node_modules/mustache/mustache.js","./ledger.js":"ledger.js","buffer":"node_modules/buffer/index.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"regenerator-runtime":"node_modules/regenerator-runtime/runtime.js","near-api-js":"node_modules/near-api-js/lib/browser-index.js","js-sha256":"node_modules/js-sha256/src/sha256.js","bs58":"node_modules/bs58/index.js","mustache":"node_modules/mustache/mustache.js","./ledger.js":"ledger.js","near-api-js/lib/utils":"node_modules/near-api-js/lib/utils/index.js","buffer":"node_modules/buffer/index.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -25124,7 +25224,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59096" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57987" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
