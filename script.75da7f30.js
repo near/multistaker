@@ -24767,7 +24767,7 @@ function _addLedgerPath() {
               return accountId;
             });
             _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop(i) {
-              var path, publicKey, publicKeyStr, curAccounts;
+              var path, publicKey, publicKeyStr, curAccounts, implicitAccount;
               return regeneratorRuntime.wrap(function _loop$(_context6) {
                 while (1) {
                   switch (_context6.prev = _context6.next) {
@@ -24784,7 +24784,22 @@ function _addLedgerPath() {
                       return getAccountsFromKey(publicKeyStr);
 
                     case 8:
-                      curAccounts = _context6.sent;
+                      _context6.t0 = _context6.sent;
+                      _context6.t1 = [];
+                      curAccounts = _context6.t0 + _context6.t1;
+                      implicitAccount = Buffer.from(publicKey).toString('hex');
+                      _context6.next = 14;
+                      return accountExists(implicitAccount);
+
+                    case 14:
+                      if (!_context6.sent) {
+                        _context6.next = 16;
+                        break;
+                      }
+
+                      curAccounts.push(implicitAccount);
+
+                    case 16:
                       console.log(path, publicKeyStr, curAccounts);
                       curAccounts.forEach(function (accountId) {
                         if (!accountIds.includes(accountId)) {
@@ -24795,20 +24810,20 @@ function _addLedgerPath() {
                           });
                         }
                       });
-                      _context6.next = 16;
+                      _context6.next = 23;
                       break;
 
-                    case 13:
-                      _context6.prev = 13;
-                      _context6.t0 = _context6["catch"](1);
-                      console.log("".concat(path, " failed: ").concat(_context6.t0));
+                    case 20:
+                      _context6.prev = 20;
+                      _context6.t2 = _context6["catch"](1);
+                      console.log("".concat(path, " failed: ").concat(_context6.t2));
 
-                    case 16:
+                    case 23:
                     case "end":
                       return _context6.stop();
                   }
                 }
-              }, _loop, null, [[1, 13]]);
+              }, _loop, null, [[1, 20]]);
             });
             i = 0;
 
@@ -25111,7 +25126,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59411" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55555" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
