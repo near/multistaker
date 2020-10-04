@@ -6,6 +6,7 @@ import { encode, decode } from 'bs58';
 import Mustache from 'mustache';
 
 import { createLedgerU2FClient } from './ledger.js'
+import { format } from 'near-api-js/lib/utils';
 
 const LOCKUP_BASE = 'lockup.near';
 
@@ -24,6 +25,11 @@ window.onload = () => {
 
 function accountToLockup(masterAccountId, accountId) {
     return `${sha256(Buffer.from(accountId)).toString('hex').slice(0, 40)}.${masterAccountId}`;
+}
+
+function formatFloat(value) {
+    return nearAPI.utils.format.formatNearAmount(
+        nearAPI.utils.format.parseNearAmount(value.toString()), 2);
 }
 
 function getAccounts() {
@@ -48,10 +54,33 @@ async function accountExists(connection, accountId) {
     }
 }
 
+async function fetchPools(masterAccount) {
+    const result = await masterAccount.connection.provider.sendJsonRpc('validators', [null]);
+    const pools = new Set();
+    const stakes = new Map();
+    result.current_validators.forEach((validator) => {
+        pools.add(validator.account_id);
+        stakes.set(validator.account_id, validator.stake);
+    });
+    result.next_validators.forEach((validator) => pools.add(validator.account_id));
+    result.current_proposals.forEach((validator) => pools.add(validator.account_id));
+    let poolsWithFee = [];
+    let promises = []
+    pools.forEach((accountId) => {
+            promises.push((async () => {
+                let stake = nearAPI.utils.format.formatNearAmount(stakes.get(accountId), 2);
+                let fee = await masterAccount.viewFunction(accountId, 'get_reward_fee_fraction', {});
+                poolsWithFee.push({ accountId, stake, fee: `${(fee.numerator * 100 / fee.denominator)}%` });
+        })());
+    });
+    await Promise.all(promises);
+    return poolsWithFee;
+}
+
 async function loadAccounts() {
     let accounts = getAccounts();
-    console.log(`Accounts: ${accounts}`);
     const template = document.getElementById('template').innerHTML;
+    let totalAmount = 0, totalStaked = 0;
     accounts = await Promise.all(accounts.map(async ({ publicKey, path, accountId }) => {
         let lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
         let amount = 0, depositedAmount = 0, stakedAmount = 0;
@@ -64,31 +93,44 @@ async function loadAccounts() {
                 pool = await lockupAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id', {});
                 depositedAmount = nearAPI.utils.format.formatNearAmount(
                     await lockupAccount.viewFunction(lockupAccountId, 'get_known_deposited_balance'), 2);
+                totalAmount += parseFloat(amount.replaceAll(',', ''));
                 if (pool) {
                     stakedAmount = nearAPI.utils.format.formatNearAmount(
                         await lockupAccount.viewFunction(pool, 'get_account_total_balance', { "account_id": lockupAccountId }), 2);
+                    totalStaked += parseFloat(stakedAmount.replaceAll(',', ''));
                 }
             } catch (error) {
                 console.log(error);
             }
         }
+        let accountIdShort = accountId.length > 32 ? `${accountId.slice(0, 4)}..${accountId.slice(-4)}` : accountId;
+        let lockupIdShort = `${lockupAccountId.slice(0, 4)}..`;
         return {
             publicKey,
             path,
             accountId,
+            accountIdShort,
             lockupAccountId,
+            lockupIdShort,
             amount,
             depositedAmount,
             stakedAmount,
             pool
         }
     }));
+    totalAmount += totalStaked;
     let lastStakeTime = new Date(window.localStorage.getItem('last-stake-time'));
     let elapsedMin = Math.round((new Date() - lastStakeTime) / 1000) / 60;
+    let account = await window.near.account('lockup.near');
+    let pools = await fetchPools(account);
+    console.log(pools);
     document.getElementById('accounts').innerHTML = Mustache.render(template, {
         accounts,
         lastStakeTime,
-        elapsedMin
+        elapsedMin,
+        totalAmount: formatFloat(totalAmount),
+        totalStaked: formatFloat(totalStaked),
+        pools,
     });
 }
 

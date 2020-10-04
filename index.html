@@ -21,6 +21,8 @@
       <input id="ledger-end" placeholder="path end 44'/397'/0'/0'/5'" value="44'/397'/0'/0'/1'" />
       <button onclick="addLedgerPath()">Add Ledger paths</button>
       <h2>Accounts</h2>
+      <p>Total amount: {{totalAmount}}</p>
+      <p>Total staked: {{totalStaked}}</p>
       <table>
         <thead>
             <tr>
@@ -36,8 +38,8 @@
         {{#accounts}}
             <tr>
                 <td>{{ path }}</td>
-                <td>{{ accountId }}</td>
-                <td>{{ lockupAccountId }}</td> 
+                <td><a href="https://explorer.near.org/accounts/{{ accountId }}">{{ accountIdShort }}</a></td>
+                <td><a href="https://explorer.near.org/accounts/{{ lockupAccountId }}">{{ lockupIdShort }}</td> 
                 <td>{{ amount }}</td>
                 <td>{{ pool }}</td>
                 <td>{{ depositedAmount }}</td>
@@ -52,13 +54,16 @@
       <div>
         <select id="select-account-id">
             {{#accounts}}
-              <option value="{{ accountId }}">{{ path }} -- {{ accountId }}</option>
+              <option value="{{ accountId }}">{{ path }} -- {{ accountIdShort }}</option>
             {{/accounts}}
         </select>
       </div>
       <div>
         <select style="width: 200px; float: left;" onchange="this.nextElementSibling.value=this.value">
           <option></option>
+          {{#pools}}
+            <option value="{{ accountId }}">{{ accountId }} -- {{ fee }} -- {{ stake }}</option>
+          {{/pools}}
         </select>
         <input id="select-pool-id" style="width: 175px; margin-left: -199px; margin-top: 1px; border: none; float: left;"/>
       </div>
@@ -67,7 +72,7 @@
       <div>
         <select id="stake-account-id">
             {{#accounts}}
-              <option value="{{ accountId }}">{{ path }} -- {{ accountId }}</option>
+              <option value="{{ accountId }}">{{ path }} -- {{ accountIdShort }}</option>
             {{/accounts}}
         </select>
       </div>
