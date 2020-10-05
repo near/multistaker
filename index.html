@@ -17,8 +17,10 @@
     <h1>Tool to stake many accounts with one Ledger</h1>
 
     <script id="template" type="x-tmpl-mustache">
+      <p>Start path range (e.g. 44'/397'/0'/0'/1'):</p>
       <input id="ledger-start" placeholder="path start 44'/397'/0'/0'/1'" value="44'/397'/0'/0'/1'" />
-      <input id="ledger-end" placeholder="path end 44'/397'/0'/0'/5'" value="44'/397'/0'/0'/1'" />
+      <p>End path range (e.g. 44'/397'/0'/0'/10'):</p>
+      <input id="ledger-end" placeholder="path end 44'/397'/0'/0'/5'" value="44'/397'/0'/0'/5'" />
       <button onclick="addLedgerPath()">Add Ledger paths</button>
       <h2>Accounts</h2>
       <p>Total amount: {{totalAmount}}</p>

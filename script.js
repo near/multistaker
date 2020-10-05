@@ -193,6 +193,7 @@ async function addLedgerPath() {
             console.log(path, publicKeyStr, curAccounts);
             curAccounts.forEach((accountId) => {
                 if (!accountIds.includes(accountId)) {
+                    accountIds.push(accountId);
                     accounts.push({
                         path,
                         publicKey: publicKeyStr,
