@@ -24901,6 +24901,7 @@ function _addLedgerPath() {
                       console.log(path, publicKeyStr, curAccounts);
                       curAccounts.forEach(function (accountId) {
                         if (!accountIds.includes(accountId)) {
+                          accountIds.push(accountId);
                           accounts.push({
                             path: path,
                             publicKey: publicKeyStr,
@@ -25224,7 +25225,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57987" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63135" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
