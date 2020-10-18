@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>MultiStaker</title><link rel="stylesheet" href="style.2484efd3.css"><script src="script.80774bac.js" defer></script></head><body> <h1>Tool to stake many accounts with one Ledger</h1> <script id="template" type="x-tmpl-mustache">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>MultiStaker</title><link rel="stylesheet" href="style.2484efd3.css"><script src="script.e847c432.js" defer></script></head><body> <h1>Tool to stake many accounts with one Ledger</h1> <script id="template" type="x-tmpl-mustache">
       <p>Start path range (e.g. 44'/397'/0'/0'/1'):</p>
       <input id="ledger-start" placeholder="path start 44'/397'/0'/0'/1'" value="44'/397'/0'/0'/1'" />
       <p>End path range (e.g. 44'/397'/0'/0'/10'):</p>
@@ -7,6 +7,7 @@
       <h2>Accounts</h2>
       <p>Total amount: {{totalAmount}}</p>
       <p>Total staked: {{totalStaked}}</p>
+      <p>Total unstaked: {{totalUnstaked}}</p>
       <table>
         <thead>
             <tr>
@@ -16,7 +17,8 @@
               <th>Amount</th>
               <th>Pool</th>
               <th>Deposited amount</th>
-              <th>Total staked amount</th>
+              <th>Staked amount</th>
+              <th>Unstaked amount</th>
             </tr>
         </thead>
         {{#accounts}}
@@ -28,6 +30,7 @@
                 <td>{{ pool }}</td>
                 <td>{{ depositedAmount }}</td>
                 <td>{{ stakedAmount }}</td>
+                <td>{{ unstakedAmount }}</td>
             </tr>
         {{/accounts}}
       </table>
@@ -62,4 +65,26 @@
       </div>
       <input id="stake-amount" placeholder="Amount in $NEAR" />
       <button onclick="stake()">Stake</button>
+      <h2>Unstake</h2>
+      <p>Unstakes given amount, need to wait 3 epochs to withdraw after that. Use 0 to unstake all</p>
+      <div>
+        <select id="unstake-account-id">
+            {{#accounts}}
+              <option value="{{ accountId }}">{{ path }} -- {{ accountIdShort }}</option>
+            {{/accounts}}
+        </select>
+      </div>
+      <input id="unstake-amount" placeholder="Amount in $NEAR" />
+      <button onclick="unstake()">Unstake</button>
+      <h2>Withdraw</h2>
+      <p>Before withdrawing, you must unstake and wait for 3 epochs (36 hours). Use 0 to withdraw all unstaked</p>
+      <div>
+        <select id="withdraw-account-id">
+            {{#accounts}}
+              <option value="{{ accountId }}">{{ path }} -- {{ accountIdShort }}</option>
+            {{/accounts}}
+        </select>
+      </div>
+      <input id="withdraw-amount" placeholder="Amount in $NEAR" />
+      <button onclick="withdraw()">Unstake</button>
     </script> <div id="accounts"></div> </body></html>
