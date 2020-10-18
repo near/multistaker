@@ -80,10 +80,10 @@ async function fetchPools(masterAccount) {
 async function loadAccounts() {
     let accounts = getAccounts();
     const template = document.getElementById('template').innerHTML;
-    let totalAmount = 0, totalStaked = 0;
+    let totalAmount = 0, totalStaked = 0, totalUnstaked = 0;
     accounts = await Promise.all(accounts.map(async ({ publicKey, path, accountId }) => {
         let lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
-        let amount = 0, depositedAmount = 0, stakedAmount = 0;
+        let amount = 0, depositedAmount = 0, stakedAmount = 0, unstakedAmount = 0;
         let pool = null;
         if (await accountExists(window.near.connection, lockupAccountId)) {
             try {
@@ -96,8 +96,11 @@ async function loadAccounts() {
                 totalAmount += parseFloat(amount.replaceAll(',', ''));
                 if (pool) {
                     stakedAmount = nearAPI.utils.format.formatNearAmount(
-                        await lockupAccount.viewFunction(pool, 'get_account_total_balance', { "account_id": lockupAccountId }), 2);
+                        await lockupAccount.viewFunction(pool, 'get_account_staked_balance', { "account_id": lockupAccountId }), 2);
+                    unstakedAmount = nearAPI.utils.format.formatNearAmount(
+                        await lockupAccount.viewFunction(pool, 'get_account_unstaked_balance', { "account_id": lockupAccountId }), 2);
                     totalStaked += parseFloat(stakedAmount.replaceAll(',', ''));
+                    totalUnstaked += parseFloat(unstakedAmount.replaceAll(',', ''));
                 }
             } catch (error) {
                 console.log(error);
@@ -115,6 +118,7 @@ async function loadAccounts() {
             amount,
             depositedAmount,
             stakedAmount,
+            unstakedAmount,
             pool
         }
     }));
@@ -130,6 +134,7 @@ async function loadAccounts() {
         elapsedMin,
         totalAmount: formatFloat(totalAmount),
         totalStaked: formatFloat(totalStaked),
+        totalUnstaked: formatFloat(totalUnstaked),
         pools,
     });
 }
@@ -294,7 +299,79 @@ async function stake() {
     await loadAccounts();
 }
 
+async function unstake() {
+    let accountId = document.querySelector('#unstake-account-id').value;
+    let { path, publicKey } = findAccount(accountId);
+    let amount = document.querySelector('#unstake-amount').value;
+    console.log(`Unstake ${amount} from ${path} / ${accountId}`);
+    amount = nearAPI.utils.format.parseNearAmount(amount);
+    let lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
+    try {
+        let account = await window.near.account(accountId);
+        pool = await account.viewFunction(lockupAccountId, 'get_staking_pool_account_id', {});
+        if (!pool) {
+            alert(`Lockup ${lockupAccountId} doesn't have pool selected yet`);
+            return;
+        }
+        await setAccountSigner(account, path, publicKey);
+        if (amount == "0") {
+            await account.functionCall(
+                lockupAccountId,
+                'unstake_all',
+                {},
+                '200000000000000');
+        } else {
+            await account.functionCall(
+                lockupAccountId,
+                'unstake',
+                { 'amount': amount },
+                '200000000000000');
+        }
+    } catch (error) {
+        console.log(error);
+        alert(error);
+    }
+    await loadAccounts();
+}
+
+async function withdraw() {
+    let accountId = document.querySelector('#withdraw-account-id').value;
+    let { path, publicKey } = findAccount(accountId);
+    let amount = document.querySelector('#withdraw-amount').value;
+    console.log(`Withdraw ${amount} from ${path} / ${accountId}`);
+    amount = nearAPI.utils.format.parseNearAmount(amount);
+    let lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
+    try {
+        let account = await window.near.account(accountId);
+        pool = await account.viewFunction(lockupAccountId, 'get_staking_pool_account_id', {});
+        if (!pool) {
+            alert(`Lockup ${lockupAccountId} doesn't have pool selected yet`);
+            return;
+        }
+        await setAccountSigner(account, path, publicKey);
+        if (amount == "0") {
+            await account.functionCall(
+                lockupAccountId,
+                'withdraw_all_from_staking_pool',
+                {},
+                '200000000000000');
+        } else {
+            await account.functionCall(
+                lockupAccountId,
+                'withdraw_from_staking_pool',
+                { 'amount': amount },
+                '200000000000000');
+        }
+    } catch (error) {
+        console.log(error);
+        alert(error);
+    }
+    await loadAccounts();
+}
+
 window.nearAPI = nearAPI;
 window.addLedgerPath = addLedgerPath;
 window.selectPool = selectPool;
 window.stake = stake;
+window.unstake = unstake;
+window.withdraw = withdraw;
