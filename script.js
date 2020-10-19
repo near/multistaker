@@ -256,6 +256,29 @@ async function selectPool() {
         alert(`Pool ${poolId} doesn't exist`);
         return;
     }
+    let currentPool = '';
+    try {
+        currentPool = await account.viewFunction(
+            lockupAccountId,
+            'get_staking_pool_account_id', 
+            {});
+    } catch (error) {
+        console.log(error);
+        alert(error);
+    }
+    if (currentPool.length > 0 && currentPool !== poolId) {
+        try {
+            await setAccountSigner(account, path, publicKey);
+            await account.functionCall(
+                lockupAccountId,
+                'unselect_staking_pool', 
+                {},
+                '25000000000000');
+        } catch (error) {
+            console.log(error);
+            alert(error);
+        }
+    }
     try {
         let account = await window.near.account(accountId);
         await setAccountSigner(account, path, publicKey);
