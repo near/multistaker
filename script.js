@@ -263,7 +263,7 @@ async function selectPool() {
             lockupAccountId,
             'get_staking_pool_account_id', 
             {},
-            '0');
+            '25000000000000');
     } catch (error) {
         console.log(error);
         alert(error);
@@ -275,7 +275,7 @@ async function selectPool() {
                 lockupAccountId,
                 'unselect_staking_pool', 
                 {},
-                '0');
+                '25000000000000');
         } catch (error) {
             console.log(error);
             alert(error);
