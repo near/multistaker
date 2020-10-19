@@ -258,12 +258,10 @@ async function selectPool() {
     }
     let currentPool = ''
     try {
-        await setAccountSigner(account, path, publicKey);
-        currentPool = await account.functionCall(
+        currentPool = await account.viewFunction(
             lockupAccountId,
             'get_staking_pool_account_id', 
-            {},
-            '25000000000000');
+            {});
     } catch (error) {
         console.log(error);
         alert(error);
