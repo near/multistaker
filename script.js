@@ -256,7 +256,7 @@ async function selectPool() {
         alert(`Pool ${poolId} doesn't exist`);
         return;
     }
-    let currentPool = ''
+    let currentPool = '';
     try {
         currentPool = await account.viewFunction(
             lockupAccountId,
@@ -269,7 +269,7 @@ async function selectPool() {
     if (currentPool.length > 0 && currentPool !== poolId) {
         try {
             await setAccountSigner(account, path, publicKey);
-            currentPool = await account.functionCall(
+            await account.functionCall(
                 lockupAccountId,
                 'unselect_staking_pool', 
                 {},
