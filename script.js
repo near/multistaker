@@ -268,7 +268,7 @@ async function selectPool() {
         console.log(error);
         alert(error);
     }
-    if (currentPool.length > 0 && currentPool !== poolId) {
+    if (currentPool && currentPool.length > 0 && currentPool !== poolId) {
         try {
             await setAccountSigner(account, path, publicKey);
             await account.functionCall(
