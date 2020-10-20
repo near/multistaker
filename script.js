@@ -257,7 +257,9 @@ async function selectPool() {
         return;
     }
     let currentPool = '';
+    let account
     try {
+        account = await window.near.account(accountId);
         currentPool = await account.viewFunction(
             lockupAccountId,
             'get_staking_pool_account_id', 
@@ -280,7 +282,6 @@ async function selectPool() {
         }
     }
     try {
-        let account = await window.near.account(accountId);
         await setAccountSigner(account, path, publicKey);
         await account.functionCall(
             lockupAccountId,
