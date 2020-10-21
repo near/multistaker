@@ -243,7 +243,7 @@ function findAccount(accountId) {
 }
 
 async function selectPool() {
-    let accountId = document.querySelector('#select-account-id').value;
+    let accountId = document.querySelector('#account-id').value;
     let { path, publicKey } = findAccount(accountId);
     if (!path) {
         alert("How did you select this?");
@@ -296,7 +296,7 @@ async function selectPool() {
 }
 
 async function stake() {
-    let accountId = document.querySelector('#stake-account-id').value;
+    let accountId = document.querySelector('#account-id').value;
     let { path, publicKey } = findAccount(accountId);
     let amount = document.querySelector('#stake-amount').value;
     console.log(`Stake ${amount} from ${path} / ${accountId}`);
@@ -324,7 +324,7 @@ async function stake() {
 }
 
 async function unstake() {
-    let accountId = document.querySelector('#unstake-account-id').value;
+    let accountId = document.querySelector('#account-id').value;
     let { path, publicKey } = findAccount(accountId);
     let amount = document.querySelector('#unstake-amount').value;
     console.log(`Unstake ${amount} from ${path} / ${accountId}`);
@@ -359,7 +359,7 @@ async function unstake() {
 }
 
 async function withdraw() {
-    let accountId = document.querySelector('#withdraw-account-id').value;
+    let accountId = document.querySelector('#account-id').value;
     let { path, publicKey } = findAccount(accountId);
     let amount = document.querySelector('#withdraw-amount').value;
     console.log(`Withdraw ${amount} from ${path} / ${accountId}`);
