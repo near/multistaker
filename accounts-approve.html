@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NEAR Multi-Staker Delegator</title>
+    <link rel="icon" type="image/png" href="favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+
+    <div class="modal is-active">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title has-text-centered">Approve in Ledger</p>
+            </header>
+            <section class="modal-card-body p-6 has-text-centered">
+                <img class="mb-6" src="img/ledger-approve.svg" width="256" height="111" />
+                <p class="subtitle">Ledger will cycle through each account for your approval.</p>
+                <p>This window will close once everything has been approved.<br> To cancel, click through and 'Reject' in Ledger.</p>
+            </section>
+            <a href="accounts.html">Next</a>
+        </div>
+    </div>
+
+
+    <div class="container">
+
+        <!-- <div class="notification is-primary">Notification: This container is <strong>centered</strong> on desktop and larger viewports.</div> -->
+
+
+        <nav class="level">
+            <div class="level-left">
+                <img src="img/near_icon.svg" width="64" height="64" alt="NEAR" />
+                <h1>MSD</h1>
+                <p class="note ml-3">Only for use with multiple accounts on a Ledger Device</p>
+            </div>
+            <div id="ledger-status" class="level-right">
+                <p class="level item has-text-success">
+                    <img class="mr-3" src="img/ledger.svg" width="24" height="24" />
+                    Connected
+                </p>
+            </div>
+        </nav>
+
+        <section class="ml-5">
+            <h2 class="title mt-6">Step 2: Import your Accounts</h2>
+            <p class="subtitle mt-1">To import multiple accounts, please enter the first and last in the range you want to import.</p>
+        </section>
+
+        <section class="section ml-3">
+
+            <div class="tile is-ancestor">
+                <div class="tile is-4">
+                    <p>Start path range<br><em>(e.g. 44'/397'/0'/0'/2')</em></p>
+                    <input class="input" id="ledger-start" placeholder="path start 44'/397'/0'/0'/2'" value="44'/397'/0'/0'/2'" />
+                </div>
+                <div class="tile is-4">
+                    <p>End path range<br><em>(e.g. 44'/397'/0'/0'/6')</em></p>
+                    <input class="input" id="ledger-end" placeholder="path end 44'/397'/0'/0'/6'" value="44'/397'/0'/0'/6'" />
+                </div>
+                <div class="tile is-4">
+                    <button class="button is-link" onclick="addLedgerPath()">Import Ledger Accounts</button>
+                    <p class="ml-3"><em>You will be asked to approve via Ledger</em></p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>
+                    For staking on NEAR Protocol.
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+
+</body>
+
+</html>

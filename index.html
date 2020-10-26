@@ -1,93 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NEAR Multi-Staker Delegator</title>
+    <link rel="icon" type="image/png" href="favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+</head>
 
-    <title>MultiStaker</title>
-    
-    <!-- import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css">
-    
-    <!-- import the webpage's javascript file -->
-    <script src="/script.js" defer></script>
-  </head>  
-  <body>
-    <h1>Tool to stake many accounts with one Ledger</h1>
+<body>
+    <div class="container">
 
-    <script id="template" type="x-tmpl-mustache">
-      <p>Start path range (e.g. 44'/397'/0'/0'/1'):</p>
-      <input id="ledger-start" placeholder="path start 44'/397'/0'/0'/1'" value="44'/397'/0'/0'/1'" />
-      <p>End path range (e.g. 44'/397'/0'/0'/10'):</p>
-      <input id="ledger-end" placeholder="path end 44'/397'/0'/0'/5'" value="44'/397'/0'/0'/5'" />
-      <button onclick="addLedgerPath()">Add Ledger paths</button>
-      <h2>Accounts</h2>
-      <p>Total amount: {{totalAmount}}</p>
-      <p>Total staked: {{totalStaked}}</p>
-      <p>Total unstaked: {{totalUnstaked}}</p>
-      <table>
-        <thead>
-            <tr>
-              <th>Path</th>
-              <th>Account Id</th>
-              <th>Lockup Id</th>
-              <th>Amount</th>
-              <th>Pool</th>
-              <th>Deposited amount</th>
-              <th>Staked amount</th>
-              <th>Unstaked amount</th>
-            </tr>
-        </thead>
-        {{#accounts}}
-            <tr>
-                <td>{{ path }}</td>
-                <td><a href="https://explorer.near.org/accounts/{{ accountId }}">{{ accountIdShort }}</a></td>
-                <td><a href="https://explorer.near.org/accounts/{{ lockupAccountId }}">{{ lockupIdShort }}</td> 
-                <td>{{ amount }}</td>
-                <td>{{ pool }}</td>
-                <td>{{ depositedAmount }}</td>
-                <td>{{ stakedAmount }}</td>
-                <td>{{ unstakedAmount }}</td>
-            </tr>
-        {{/accounts}}
-      </table>
-      <h2>History</h2>
-      Last stake time: {{ lastStakeTime }}
-      Elapsed (min): {{ elapsedMin }}
+        <nav class="level">
+            <div class="level-left">
+                <img src="img/near_icon.svg" width="64" height="64" alt="NEAR" />
+                <h1>MSD</h1>
+                <p class="note ml-3">Only for use with multiple accounts on a Ledger Device</p>
+            </div>
+            <div id="ledger-status" class="level-right">
+                <p class="level item">
+                    <img class="mr-3" src="img/ledger.svg" width="24" height="24" />
+                    Disconnected
+                </p>
+            </div>
+        </nav>
+        <section class="ml-5">
+            <h2 class="title mt-6">Step 1: Please connect your Ledger Device</h2>
+            <p class="subtitle mt-1">Connect your Ledger Nano S or X to your computer or mobile device via USB and open the NEAR application.</p>
+            <p>Then, press both buttons at the 'Pending Ledger Review' screen. That status in the top right should show when you're connected.</p>
+        </section>
 
-      <h2>Select account</h2>
-      <div>
-        <select id="account-id">
-            {{#accounts}}
-              <option value="{{ accountId }}">{{ path }} -- {{ accountIdShort }}</option>
-            {{/accounts}}
-        </select>
-      </div>
-      <h2>Select pool</h2>
-      <div>
-        <select style="width: 200px; float: left;" onchange="this.nextElementSibling.value=this.value">
-          <option></option>
-          {{#pools}}
-            <option value="{{ accountId }}">{{ accountId }} -- {{ fee }} -- {{ stake }}</option>
-          {{/pools}}
-        </select>
-        <input id="select-pool-id" style="width: 175px; margin-left: -199px; margin-top: 1px; border: none; float: left;"/>
-      </div>
-      <button onclick="selectPool()">Select Pool</button>
-      <h2>Stake</h2>
-      <input id="stake-amount" placeholder="Amount in $NEAR" />
-      <button onclick="stake()">Stake</button>
-      <h2>Unstake</h2>
-      <p>Unstakes given amount, need to wait 3 epochs to withdraw after that. Use 0 to unstake all</p>
-      <input id="unstake-amount" placeholder="Amount in $NEAR" />
-      <button onclick="unstake()">Unstake</button>
-      <h2>Withdraw</h2>
-      <p>Before withdrawing, you must unstake and wait for 3 epochs (36 hours). Use 0 to withdraw all unstaked</p>
-      <input id="withdraw-amount" placeholder="Amount in $NEAR" />
-      <button onclick="withdraw()">Unstake</button>
-    </script>
+        <section class="section pb-6 has-centered-text">
+            <a class="button is-link" href="import.html">I'm Connected, Let's do this!</a>
 
-    <div id="accounts"></div>
-  </body>
+        </section>
+
+
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>
+                    For staking on NEAR Protocol.
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+
 </html>

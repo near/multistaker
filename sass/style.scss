@@ -1,0 +1,213 @@
+@charset "utf-8";
+
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Inter:400,600,900');
+
+
+
+// Set your brand colors
+$black: #000000;
+$red: #FF585D;
+$blue: #0072CE;
+$green: #00C08B;
+$yellow: #F0EC74;
+$gray: #666666;
+$gray-light: #e6e6e6;
+$gray-lighter: #f2f2f2;
+
+// Update global variables
+$family-sans-serif: "Inter",
+sans-serif;
+$grey-dark: $gray;
+$grey-light: $gray-light;
+$primary: $black;
+$link: $blue;
+
+$footer-background-color: $gray-lighter;
+
+// Update some of Bulma's component variables
+$body-background-color: $gray-lighter;
+$control-border-width: 2px;
+$input-border-color: transparent;
+$input-shadow: none;
+
+// Import only what you need from Bulma
+@import "../node_modules/bulma/bulma.sass";
+
+nav {
+    padding-top: 10px;
+    padding-left: 10px;
+    background: #fff;
+}
+
+a img {
+    opacity: 0.5;
+}
+
+a:hover img {
+    opacity: 1;
+}
+
+.level-right {
+    padding: 30px;
+}
+
+#ledger-status {
+    border-radius: 4px;
+}
+
+.notification:not(:last-child) {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+h1 {
+    font-weight: 900;
+    font-size: 24px;
+    color: $black;
+}
+
+.has-text-weight-medium {
+    font-weight: 600;
+}
+
+.has-text-weight-bold {
+    font-weight: 900;
+    color: $black;
+}
+
+.note {
+    font-size: 14px;
+    color: $gray;
+}
+
+.has-text-success img {
+    border: 3px solid $green;
+    background: #fff;
+    padding: 3px;
+    border-radius: 4px;
+}
+
+.has-text-success {
+    font-weight: 600;
+}
+
+.tile {
+    padding-right: 20px;
+
+    p {
+        display: block;
+        font-weight: 600;
+        color: $black;
+    }
+
+    em {
+        display: block;
+        font-size: 12px;
+        color: $gray;
+        font-weight: 400;
+    }
+
+    input {
+        width: 50%;
+        margin-left: 20px;
+    }
+}
+
+section {
+    @apply p-0;
+}
+
+.account {
+    background: white;
+    border-radius: 4px;
+    margin: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+
+    .level-item {
+        padding: 20px;
+        margin: 0;
+    }
+
+    .level-left {
+        margin: 0;
+        padding: 0;
+    }
+
+    .level-right {
+        margin: 0;
+        padding: 0;
+        width: 45%;
+        max-width: 50%;
+    }
+
+}
+
+.level:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.delegator {
+    background: #f8f8f8;
+    border-radius: 0 4px 4px 0;
+
+    .input {
+        margin: 0;
+        padding: 2px 5px;
+        font-size: 14px;
+    }
+
+    .button {
+        margin: 0;
+        padding: 2px 10px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .validator {
+        word-wrap: break-word;
+        width: 240px;
+    }
+
+    button.validator {
+        font-weight: 600;
+        color: #ffffff;
+    }
+
+    .amount {
+        word-wrap: break-word;
+        width: 240px;
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.notice {
+    word-wrap: break-word;
+    width: 450px;
+    font-size: 14px;
+}
+
+.complete {
+    background: #f1faf6;
+}
+
+.waiting {
+    background: #f9fced;
+}
+
+
+.close-button {
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+
+    img {
+        padding-top: 2px;
+    }
+}
+
+footer {
+    margin-top: 100px;
+    border-top: 1px solid $gray-light;
+}

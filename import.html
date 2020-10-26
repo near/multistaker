@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NEAR Multi-Staker Delegator</title>
+    <link rel="icon" type="image/png" href="favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="script.js"></script>
+    <script type='text/javascript'>
+        function addFields() {
+            // Number of inputs to create
+            var number = document.getElementById("number").value;
+            // Container <div> where dynamic content will be placed
+            var container = document.getElementById("paths");
+            // Clear previous contents of the container
+            while (container.hasChildNodes()) {
+                container.removeChild(container.lastChild);
+            }
+            for (i = 0; i < number; i++) {
+                // Append a node with a label
+                var para = document.createElement("p");
+                para.innerHTML = "Account " + (i + 1);
+                para.classList.add("label");
+                para.classList.add("mt-3");
+                container.appendChild(para);
+                // Create an <input> element, set its type and name attributes
+                var input = document.createElement("input");
+                input.type = "text";
+                input.value = "44'/397'/0'/0'/" + (i + 2) + "'";
+                input.name = "path" + i;
+                input.classList.add("input");
+                container.appendChild(input);
+                // Append a line break 
+                container.appendChild(document.createElement("br"));
+            }
+            //target container for the add path button
+            var btnPath = document.getElementById("add-path");
+            var button = document.createElement("button");
+            button.innerHTML = "Add a Field";
+            button.classList.add("button");
+            button.setAttribute("onclick", "addField()");
+            btnPath.appendChild(button);
+
+            var button = document.createElement("button");
+            button.innerHTML = "Import Ledger Accounts";
+            button.classList.add("button");
+            button.classList.add("is-link");
+            button.classList.add("ml-5");
+            button.setAttribute("onclick", "addLedgerPaths()");
+            btnPath.appendChild(button);
+        }
+
+        function addField() {
+            // Container <div> where dynamic content will be placed
+            var container = document.getElementById("paths");
+            // Append a node with a label
+            var para = document.createElement("p");
+            para.innerHTML = "Account " + (i + 1);
+            para.classList.add("label");
+            para.classList.add("mt-3");
+            container.appendChild(para);
+            // Create an <input> element, set its type and name attributes
+            var input = document.createElement("input");
+            input.type = "text";
+            input.value = "44'/397'/0'/0'/" + (i + 2) + "'";
+            input.name = "path" + i;
+            input.classList.add("input");
+            container.appendChild(input);
+            i++;
+        }
+
+    </script>
+
+
+</head>
+
+
+
+<body>
+
+    <div class="container">
+
+        <nav class="level">
+            <div class="level-left">
+                <img src="img/near_icon.svg" width="64" height="64" alt="NEAR" />
+                <h1>MSD</h1>
+                <p class="note ml-3">Only for use with multiple accounts on a Ledger Device</p>
+            </div>
+            <div id="ledger-status" class="level-right">
+                <p class="level item has-text-success">
+                    <img class="mr-3" src="img/ledger.svg" width="24" height="24" />
+                    Connected
+                </p>
+            </div>
+        </nav>
+
+        <section class="ml-5">
+            <h2 class="title mt-6">Step 2: Import your Accounts</h2>
+            <p class="subtitle mt-1">To import multiple accounts, please enter the Ledger HD Path for each account.</p>
+        </section>
+
+        <section class="section ml-3">
+
+            <div id="paths" />
+
+            <p class="subtitle">How many accounts (or 'buckets') do you have?</p>
+            <div class="field">
+                <div class="control">
+                    <input style="width:100px;" class="input mr-3" type="text" id="number" name="number" value="">
+                    <a href="#" class="button is-link" id="filldetails" onclick="addFields();">Continue</a>
+                </div>
+            </div>
+
+
+
+
+        </section>
+
+        <section>
+            <div id="add-path" />
+        </section>
+
+        <a href="accounts-approve.html">Next</a>
+
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>
+                    For staking on NEAR Protocol.
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NEAR Multi-Staker Delegator</title>
+    <link rel="icon" type="image/png" href="favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+
+    <div id="validators" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title has-text-centered has-text-weight-bold">Select a Validator Pool</p>
+                <button class="close-button" aria-label="close"><img src="img/x.svg"></button>
+            </header>
+            <section class="modal-card-body p-6 has-text-centered has-background-light">
+                <select class="select input" onchange="this.nextElementSibling.value=this.value">
+                    <option>Choose...</option>
+                    <option value="astro-stakers.poolv1.near">astro-stakers.poolv1.near -- 1% -- 5,648,494.15</option>
+                    <option value="baziliknear.poolv1.near">baziliknear.poolv1.near -- 0% -- 1,670,845.01</option>
+                    <option value="01node.poolv1.near">01node.poolv1.near -- 10% -- 1,605,866.01</option>
+                    <option value="bisontrails.poolv1.near">bisontrails.poolv1.near -- 10% -- 3,241,717.18</option>
+                    <option value="chorusone.poolv1.near">chorusone.poolv1.near -- 8% -- 4,842,774.39</option>
+                    <option value="certusone.poolv1.near">certusone.poolv1.near -- 10% -- 3,299,910</option>
+                    <option value="buildlinks.poolv1.near">buildlinks.poolv1.near -- 5% -- 3,318,211.01</option>
+                    <option value="cryptium.poolv1.near">cryptium.poolv1.near -- 5% -- 7,227,405.35</option>
+                    <option value="d1.poolv1.near">d1.poolv1.near -- 5% -- 2,945,498</option>
+                    <option value="dokiacapital.poolv1.near">dokiacapital.poolv1.near -- 10% -- 4,939,525.05</option>
+                    <option value="dsrvlabs.poolv1.near">dsrvlabs.poolv1.near -- 10% -- 2,399,445.01</option>
+                    <option value="electric.poolv1.near">electric.poolv1.near -- 10% -- 1,489,995</option>
+                    <option value="erm.poolv1.near">erm.poolv1.near -- 8% -- 2,599,882.01</option>
+                    <option value="figment.poolv1.near">figment.poolv1.near -- 10% -- 3,761,838.34</option>
+                    <option value="fish.poolv1.near">fish.poolv1.near -- 10% -- 1,299,978.02</option>
+                    <option value="fresh.poolv1.near">fresh.poolv1.near -- 5% -- 1,509,214.91</option>
+                    <option value="hashquark.poolv1.near">hashquark.poolv1.near -- 10% -- 2,289,978.02</option>
+                    <option value="huobipool.poolv1.near">huobipool.poolv1.near -- 10% -- 1,200,030</option>
+                    <option value="inotel.poolv1.near">inotel.poolv1.near -- 10% -- 1,701,845</option>
+                    <option value="jazza.poolv1.near">jazza.poolv1.near -- 4% -- 1,619,850.01</option>
+                    <option value="lunanova.poolv1.near">lunanova.poolv1.near -- 9% -- 2,692,395.01</option>
+                    <option value="masternode24.poolv1.near">masternode24.poolv1.near -- 5% -- 2,000,036.3</option>
+                    <option value="lux.poolv1.near">lux.poolv1.near -- 1% -- 1,005,960.11</option>
+                    <option value="moonlet.poolv1.near">moonlet.poolv1.near -- 10% -- 1,579,327.49</option>
+                    <option value="nearfans.poolv1.near">nearfans.poolv1.near -- 5% -- 1,715,834.06</option>
+                    <option value="openshards.poolv1.near">openshards.poolv1.near -- 3% -- 1,784,145.01</option>
+                    <option value="nodeasy.poolv1.near">nodeasy.poolv1.near -- 10% -- 1,600,945</option>
+                    <option value="okexpool.poolv1.near">okexpool.poolv1.near -- 10% -- 1,200,030</option>
+                    <option value="stakin.poolv1.near">stakin.poolv1.near -- 0% -- 1,997,305.01</option>
+                    <option value="sharpdarts.poolv1.near">sharpdarts.poolv1.near -- 15% -- 999,995</option>
+                    <option value="sparkpool.poolv1.near">sparkpool.poolv1.near -- 10% -- 1,502,330.01</option>
+                    <option value="zkv_staketosupportprivacy.poolv1.near">zkv_staketosupportprivacy.poolv1.near -- 10% -- 1,423,840</option>
+                    <option value="stardust.poolv1.near">stardust.poolv1.near -- 1% -- 1,264,634.05</option>
+                    <option value="zavodil.poolv1.near">zavodil.poolv1.near -- 1% -- 7,051,919.37</option>
+                    <option value="staked.poolv1.near">staked.poolv1.near -- 10% -- 1,401,945</option>
+                </select>
+                <a href="approve-tx.html" class="button is-link mt-3">Connect to Pool</a>
+            </section>
+        </div>
+    </div>
+
+
+
+    <div class="container">
+
+        <!-- <div class="notification is-primary">Notification: This container is <strong>centered</strong> on desktop and larger viewports.</div> -->
+
+
+        <nav class="level">
+            <div class="level-left">
+                <img src="img/near_icon.svg" width="64" height="64" alt="NEAR" />
+                <h1>MSD</h1>
+                <p class="note ml-3">Only for use with multiple accounts on a Ledger Device</p>
+            </div>
+            <div id="ledger-status" class="level-right">
+                <p class="level item has-text-success">
+                    <img class="mr-3" src="img/ledger.svg" width="24" height="24" />
+                    Connected
+                </p>
+            </div>
+        </nav>
+
+        <section class="ml-5">
+            <div class="level mt-6">
+                <div class="level-left">
+                    <h2 class="title">Manage Accounts</h2>
+
+                </div>
+                <div class="level-right"><a href="https://near.zavodil.ru/?pools=" target="_blank">View all Validators</a></div>
+            </div>
+
+        </section>
+        <p class="pb-2 ml-5">Each account must retain a minimum balance of 35Ⓝ for fees.</p>
+        <section class="section">
+
+            <!-- Future style for when we implement unstaking <div class="level account">
+                <div class="level-left">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img class="p-1" src="img/ledger.svg" width="16" height="16" /> Ledger Path</p>
+                            <p class="subtitle has-text-weight-bold">44'/397'/0'/0'/2'</p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Account / Lockup ID</p>
+                            <p><a href="#">B1b4..6587</a> | <a href="#">8479..</a></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Available to stake</p>
+                            <p><strong>Ⓝ 0</strong> of 35.00 total</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="level-right delegator waiting">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img src="img/link-2.svg" width="16" height="16" /> Disconnected from validator pool</p>
+                            <p class="notice">Your funds are being securely un-staked and will be available to withdraw after 3 epochs (~27-36 hours) <a href="https://docs.near.org/docs/validator/delegation#unstake-and-withdraw-your-lockup-tokens" target="_blank"><img src="img/info.svg" width="22" height="22" /></a></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <img src="img/clock.svg" width="36" height="36" />
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="level account">
+                <div class="level-left">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img class="p-1" src="img/ledger.svg" width="16" height="16" /> Ledger Path</p>
+                            <p class="subtitle has-text-weight-bold">44'/397'/0'/0'/2'</p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Account / Lockup ID</p>
+                            <p><a href="#">B1b4..6587</a> | <a href="#">8479..</a></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Available to stake</p>
+                            <p><strong>Ⓝ 0.00</strong> of 35.00</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="level-right delegator complete">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img src="img/check.svg" width="16" height="16" /> connected to</p>
+                            <p><strong>bisontrails.poolv1.near</strong></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img src="img/check.svg" width="16" height="16" /> Staked</p>
+                            <p><strong>99,965.00 Ⓝ</strong></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <a href="#"><img src="img/settings.svg" width="36" height="36" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level account">
+                <div class="level-left">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img class="p-1" src="img/ledger.svg" width="16" height="16" /> Ledger Path</p>
+                            <p class="subtitle has-text-weight-bold">44'/397'/0'/0'/2'</p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Account / Lockup ID</p>
+                            <p><a href="#">B1b4..6587</a> | <a href="#">8479..</a></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Available to stake</p>
+                            <p><strong>Ⓝ 0.00</strong> of 35.00</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="level-right delegator complete">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img src="img/check.svg" width="16" height="16" /> connected to</p>
+                            <p><strong>bisontrails.poolv1.near</strong></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img src="img/check.svg" width="16" height="16" /> Staked</p>
+                            <p><strong>99,965.00 Ⓝ</strong></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <a href="#"><img src="img/settings.svg" width="36" height="36" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level account">
+                <div class="level-left">
+
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img class="p-1" src="img/ledger.svg" width="16" height="16" /> Ledger Path</p>
+                            <p class="subtitle has-text-weight-bold">44'/397'/0'/0'/3'</p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Account / Lockup ID</p>
+                            <p><a href="#">B1b4..6587</a> | <a href="#">8479..</a></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Available to Stake</p>
+                            <p><strong>Ⓝ 99965.00</strong> of 100,000.00</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="level-right delegator">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">step 1: connect to validator</p>
+                            <a onclick="toggleModal()" href="javascript:void(0);" class="button is-link validator">Choose Validator</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="level account">
+                <div class="level-left">
+
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img class="p-1" src="img/ledger.svg" width="16" height="16" /> Ledger Path</p>
+                            <p class="subtitle has-text-weight-bold">44'/397'/0'/0'/4'</p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Account / Lockup ID</p>
+                            <p><a href="#">B1b4..6587</a> | <a href="#">8479..</a></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Available to Stake</p>
+                            <p><strong>Ⓝ 99965.00</strong> of 100,000.00</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="level-right delegator">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img src="img/check.svg" width="16" height="16" /> connected to</p>
+                            <p><strong>bisontrails.poolv1.near</strong></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Step 2: Enter amount to stake</p>
+                            <fieldset>
+                                <div class="field is-grouped amount">
+                                    <p class="control is-expanded">
+                                        <input class="input" type="text" placeholder="in $NEAR">
+                                    </p>
+                                    <p class="control">
+                                        <a onclick="toggleModal()" class="button is-link">
+                                            Stake
+                                        </a>
+                                    </p>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </section>
+
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>
+                    For staking on NEAR Protocol.
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="js/msd.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NEAR Multi-Staker Delegator</title>
+    <link rel="icon" type="image/png" href="favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="modal is-active">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title has-text-centered  has-text-weight-bold">Approve in Ledger</p>
+                <button class="close-button" aria-label="close"><img src="img/x.svg"></button>
+            </header>
+            <section class="modal-card-body p-6 has-text-centered">
+                <img class="mb-6" src="img/ledger-approve.svg" width="256" height="111" />
+                <p class="subtitle">You must approve each transaction you make.</p>
+                <p>This window will close once everything has been approved.<br> To cancel, click through and 'Reject' in Ledger.</p>
+            </section>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- <div class="notification is-primary">Notification: This container is <strong>centered</strong> on desktop and larger viewports.</div> -->
+
+
+        <nav class="level">
+            <div class="level-left">
+                <img src="img/near_icon.svg" width="64" height="64" alt="NEAR" />
+                <h1>MSD</h1>
+                <p class="note ml-3">Only for use with multiple accounts on a Ledger Device</p>
+            </div>
+            <div id="ledger-status" class="level-right">
+                <p class="level item has-text-success">
+                    <img class="mr-3" src="img/ledger.svg" width="24" height="24" />
+                    Connected
+                </p>
+            </div>
+        </nav>
+
+        <section class="ml-5">
+            <div class="level mt-6">
+                <div class="level-left">
+                    <h2 class="title">Manage Accounts</h2>
+                </div>
+                <div class="level-right"><a href="https://near.zavodil.ru/?pools=" target="_blank">View all Validators</a></div>
+            </div>
+
+        </section>
+        <p class="pb-2 ml-5">Each account must retain a minimum balance of 35Ⓝ for fees.</p>
+        <section class="section">
+
+            <div class="level account">
+                <div class="level-left">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img class="p-1" src="img/ledger.svg" width="16" height="16" /> Ledger Path</p>
+                            <p class="subtitle has-text-weight-bold">44'/397'/0'/0'/2'</p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Account / Lockup ID</p>
+                            <p><a href="#">B1b4..6587</a> | <a href="#">8479..</a></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Available to stake</p>
+                            <p><strong>Ⓝ 0</strong> of 35.00 total</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="level-right delegator complete">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img src="img/check.svg" width="16" height="16" /> connected to</p>
+                            <p><strong>bisontrails.poolv1.near</strong></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img src="img/check.svg" width="16" height="16" /> Staked</p>
+                            <p><strong>99,965.00 Ⓝ</strong></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <a href="#"><img src="img/settings.svg" width="36" height="36" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level account">
+                <div class="level-left">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img class="p-1" src="img/ledger.svg" width="16" height="16" /> Ledger Path</p>
+                            <p class="subtitle has-text-weight-bold">44'/397'/0'/0'/2'</p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Account / Lockup ID</p>
+                            <p><a href="#">B1b4..6587</a> | <a href="#">8479..</a></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Available to stake</p>
+                            <p><strong>Ⓝ 0</strong> of 35.00 total</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="level-right delegator complete">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img src="img/check.svg" width="16" height="16" /> connected to</p>
+                            <p><strong>bisontrails.poolv1.near</strong></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img src="img/check.svg" width="16" height="16" /> Staked</p>
+                            <p><strong>99,965.00 Ⓝ</strong></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <a href="#"><img src="img/settings.svg" width="36" height="36" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level account">
+                <div class="level-left">
+
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img class="p-1" src="img/ledger.svg" width="16" height="16" /> Ledger Path</p>
+                            <p class="subtitle has-text-weight-bold">44'/397'/0'/0'/3'</p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Account / Lockup ID</p>
+                            <p><a href="#">B1b4..6587</a> | <a href="#">8479..</a></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Available to Stake</p>
+                            <p><strong>Ⓝ 99,965.00</strong> of 100,000.00 total</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="level-right delegator">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">step 1: connect to validator</p>
+                            <a onclick="toggleModal()" href="javascript:void(0);" class="button is-link validator">Choose Validator</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="level account">
+                <div class="level-left">
+
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img class="p-1" src="img/ledger.svg" width="16" height="16" /> Ledger Path</p>
+                            <p class="subtitle has-text-weight-bold">44'/397'/0'/0'/4'</p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Account / Lockup ID</p>
+                            <p><a href="#">B1b4..6587</a> | <a href="#">8479..</a></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Available to Stake</p>
+                            <p><strong>Ⓝ 99,965.00</strong> of 100,000.00 total</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="level-right delegator">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img src="img/check.svg" width="16" height="16" /> connected to</p>
+                            <p><strong>bisontrails.poolv1.near</strong></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Step 2: Enter amount to stake</p>
+                            <fieldset>
+                                <div class="field is-grouped amount">
+                                    <p class="control is-expanded">
+                                        <input class="input" type="text" placeholder="in $NEAR">
+                                    </p>
+                                    <p class="control">
+                                        <a onclick="toggleModal()" class="button is-link">
+                                            Stake
+                                        </a>
+                                    </p>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </section>
+
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>
+                    For staking on NEAR Protocol.
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="js/msd.js"></script>
+</body>
+
+</html>
