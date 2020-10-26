@@ -204,7 +204,8 @@ function renderAccounts(accounts) {
         selectValidatorElem.onclick = () => {
             toggleModal(selectValidatorModal);
             document.querySelector('.select-pool').onclick = () => {
-                selectPool(accountId).then(() => toggleModal(selectValidatorModal)).catch(console.error);
+                toggleModal(selectValidatorModal);
+                selectPool(accountId).catch(console.error);
             }
         }
 
@@ -272,8 +273,13 @@ async function setAccountSigner(contract, path, publicKey) {
             return publicKey;
         },
         async signMessage(message) {
-            const signature = await client.sign(message, path);
-            return { signature, publicKey };
+            document.getElementById('ledger-tx').classList.add('is-active');
+            try {
+                const signature = await client.sign(message, path);
+                return { signature, publicKey };
+            } finally {
+                document.getElementById('ledger-tx').classList.remove('is-active');
+            }
         }
     }
 
