@@ -78,8 +78,10 @@ async function fetchPools(masterAccount) {
 }
 
 async function loadAccounts() {
+    console.log('loadAccounts');
+
     let accounts = getAccounts();
-    const template = document.getElementById('template').innerHTML;
+    console.log('accounts', accounts);
     let totalAmount = 0, totalStaked = 0, totalUnstaked = 0;
     accounts = await Promise.all(accounts.map(async ({ publicKey, path, accountId }) => {
         let lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
@@ -94,6 +96,7 @@ async function loadAccounts() {
                 depositedAmount = nearAPI.utils.format.formatNearAmount(
                     await lockupAccount.viewFunction(lockupAccountId, 'get_known_deposited_balance'), 2);
                 totalAmount += parseFloat(amount.replaceAll(',', ''));
+                // TODO: Fix totalAmount calculation
                 if (pool) {
                     stakedAmount = nearAPI.utils.format.formatNearAmount(
                         await lockupAccount.viewFunction(pool, 'get_account_staked_balance', { "account_id": lockupAccountId }), 2);
@@ -119,6 +122,7 @@ async function loadAccounts() {
             depositedAmount,
             stakedAmount,
             unstakedAmount,
+            totalAmount,
             pool
         }
     }));
@@ -128,46 +132,43 @@ async function loadAccounts() {
     let account = await window.near.account('lockup.near');
     let pools = await fetchPools(account);
     console.log(pools);
-    document.getElementById('accounts').innerHTML = Mustache.render(template, {
-        accounts,
-        lastStakeTime,
-        elapsedMin,
-        totalAmount: formatFloat(totalAmount),
-        totalStaked: formatFloat(totalStaked),
-        totalUnstaked: formatFloat(totalUnstaked),
-        pools,
-    });
-}
 
-function iterPathComp(start, end) {
-    let result = [];
-    for (let i = start[0]; i <= end[0]; ++i) {
-        if (start.length == 1) {
-            result.push([i]);
-        } else {
-            let subItems;
-            let b = start.slice(1);
-            let e = end.slice(1);
-            if (i != start[0]) {
-                b = Array(start.length - 1).fill(255);
-            }
-            if (i != end[0]) {
-                e = Array(end.length - 1).fill(255);
-            }
-            subItems = iterPathComp(b, e);
-            for (let j = 0; j < subItems.length; ++j) {
-                result.push([i].concat(subItems[j]));
-            }
-        }
+    const accountsSection = document.getElementById('accounts');
+    if (!accountsSection) {
+        return;
     }
-    return result;
-}
+    accountsSection.innerHTML = '';
+    const rowTemplate = document.querySelector('#templates .account')
+    for (let account of accounts) {
+        const {
+            publicKey,
+            path,
+            accountId,
+            accountIdShort,
+            lockupAccountId,
+            lockupIdShort,
+            amount,
+            depositedAmount,
+            stakedAmount,
+            unstakedAmount,
+            totalAmount,
+            pool
+        } = account;
 
-function iterPath(start, end) {
-    let sComp = start.split('\'/').map((x) => parseInt(x));
-    let eComp = end.split('\'/').map((x) => parseInt(x));
-    console.log(sComp, eComp);
-    return iterPathComp(sComp, eComp).map((item) => item.join('\'/') + '\'');
+        const row = rowTemplate.cloneNode(true);
+        row.querySelector('.ledger-path').innerHTML = path;
+        row.querySelector('.account-id').innerHTML = accountIdShort;
+        row.querySelector('.account-id').href = `https://explorer.near.org/accounts/${accountId}`;
+        row.querySelector('.lockup-account-id').innerHTML = lockupIdShort;
+        row.querySelector('.lockup-account-id').href = `https://explorer.near.org/accounts/${lockupAccountId}`;
+        row.querySelector('.available-to-stake').innerHTML = formatFloat(amount);
+        // TODO: Use totalAmount?
+        row.querySelector('.total-balance').innerHTML = formatFloat(amount);
+        row.querySelector('.pool-account-id').innerHTML = pool;
+        row.querySelector('.staked-amount').innerHTML = formatFloat(stakedAmount);
+
+        accountsSection.appendChild(row);
+    }
 }
 
 async function getAccountsFromKey(publicKey) {
@@ -175,12 +176,10 @@ async function getAccountsFromKey(publicKey) {
     return result.json();
 }
 
-async function addLedgerPath() {
-    let start = document.querySelector('#ledger-start').value;
-    let end = document.querySelector('#ledger-end').value;
-    console.log(`Adding ${start} - ${end}`);
-    let paths = iterPath(start, end);
-    console.log(paths);
+async function addLedgerPaths() {
+    const paths = Array.from(document.querySelectorAll('#paths input')).map(input => input.value);
+    console.log('paths', paths);
+
     alert(`Found: ${paths.length} paths. Now need to fetch from Ledger. If you want to cancel, refresh the page.`);
     let client = await createLedgerU2FClient();
     let accounts = getAccounts();
@@ -212,6 +211,9 @@ async function addLedgerPath() {
     }
     setAccounts(accounts);
     await loadAccounts();
+    console.log('Public keys fetched');
+    // TODO: window.location = '/accounts-approve.html'
+    window.location = '/accounts.html'
 }
 
 async function setAccountSigner(contract, path, publicKey) {
@@ -394,7 +396,8 @@ async function withdraw() {
 }
 
 window.nearAPI = nearAPI;
-window.addLedgerPath = addLedgerPath;
+window.addLedgerPaths = addLedgerPaths;
+window.loadAccounts = loadAccounts;
 window.selectPool = selectPool;
 window.stake = stake;
 window.unstake = unstake;

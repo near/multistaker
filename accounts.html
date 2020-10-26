@@ -8,12 +8,10 @@
     <title>NEAR Multi-Staker Delegator</title>
     <link rel="icon" type="image/png" href="favicon.ico">
     <link rel="stylesheet" href="css/style.css">
-
+    <script src="script.js"></script>
 </head>
 
 <body>
-
-
     <div id="validators" class="modal">
         <div class="modal-background"></div>
         <div class="modal-card">
@@ -97,7 +95,52 @@
 
         </section>
         <p class="pb-2 ml-5">Each account must retain a minimum balance of 35Ⓝ for fees.</p>
-        <section class="section">
+
+        <section id="templates" class="section" style="display: none;">
+            <div class="level account">
+                <div class="level-left">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img class="p-1" src="img/ledger.svg" width="16" height="16" /> Ledger Path</p>
+                            <p class="ledger-path subtitle has-text-weight-bold">44'/397'/0'/0'/2'</p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Account / Lockup ID</p>
+                            <p><a href="#" class='account-id'>B1b4..6587</a> | <a href="#" class='lockup-account-id'>8479..</a></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading">Available to stake</p>
+                            <p><strong>Ⓝ <span class="available-to-stake">0.00</span></strong> of <span class="total-balance">35.00</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="level-right delegator complete">
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img src="img/check.svg" width="16" height="16" /> connected to</p>
+                            <p><strong class='pool-account-id'>bisontrails.poolv1.near</strong></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <p class="heading"><img src="img/check.svg" width="16" height="16" /> Staked</p>
+                            <p><strong><span class='staked-amount'>99,965.00</span> Ⓝ</strong></p>
+                        </div>
+                    </div>
+                    <div class="level-item">
+                        <div>
+                            <a href="#"><img src="img/settings.svg" width="36" height="36" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="accounts">
 
             <!-- Future style for when we implement unstaking <div class="level account">
                 <div class="level-left">
