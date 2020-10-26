@@ -200,14 +200,20 @@ function renderAccounts(accounts) {
         }
 
         const selectValidatorElem = row.querySelector('.select-validator');
-        if (selectValidatorElem) {
-            selectValidatorElem.onclick = () => {
-                toggleModal();
-                document.querySelector('.select-pool').onclick = () => {
-                    selectPool(accountId).then(toggleModal).catch(console.error);
-                }
+        selectValidatorElem.onclick = () => {
+            toggleModal();
+            document.querySelector('.select-pool').onclick = () => {
+                selectPool(accountId).then(toggleModal).catch(console.error);
             }
         }
+
+        row.querySelector('.enter-stake-amount a').onclick = (event) => {            
+            const stakeAmountInput = event.target.parentNode.parentNode.querySelector('input');
+            stake(accountId, stakeAmountInput.value).then(() => {
+                // TODO
+            }).catch(console.error);
+        }
+
         accountsSection.appendChild(row);
     }
 }
@@ -338,10 +344,8 @@ async function selectPool(accountId) {
     await loadAccounts();
 }
 
-async function stake() {
-    let accountId = document.querySelector('#account-id').value;
+async function stake(accountId, amount) {
     let { path, publicKey } = findAccount(accountId);
-    let amount = document.querySelector('#stake-amount').value;
     console.log(`Stake ${amount} from ${path} / ${accountId}`);
     amount = nearAPI.utils.format.parseNearAmount(amount);
     let lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
