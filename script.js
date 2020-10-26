@@ -447,11 +447,76 @@ async function withdraw() {
     await loadAccounts();
 }
 
-window.nearAPI = nearAPI;
-window.addLedgerPaths = addLedgerPaths;
-window.loadAccounts = loadAccounts;
-window.selectPool = selectPool;
-window.stake = stake;
-window.unstake = unstake;
-window.withdraw = withdraw;
+// TODO: Rename addFields and addField to be more specific
+function addFields() {
+    // Number of inputs to create
+    var number = document.getElementById("number").value;
+    // Container <div> where dynamic content will be placed
+    var container = document.getElementById("paths");
+    // Clear previous contents of the container
+    while (container.hasChildNodes()) {
+        container.removeChild(container.lastChild);
+    }
+    for (i = 0; i < number; i++) {
+        // Append a node with a label
+        var para = document.createElement("p");
+        para.innerHTML = "Account " + (i + 1);
+        para.classList.add("label");
+        para.classList.add("mt-3");
+        container.appendChild(para);
+        // Create an <input> element, set its type and name attributes
+        var input = document.createElement("input");
+        input.type = "text";
+        input.value = "44'/397'/0'/0'/" + (i + 2) + "'";
+        input.name = "path" + i;
+        input.classList.add("input");
+        container.appendChild(input);
+        // Append a line break 
+        container.appendChild(document.createElement("br"));
+    }
+    //target container for the add path button
+    var btnPath = document.getElementById("add-path");
+    var button = document.createElement("button");
+    button.innerHTML = "Add a Field";
+    button.classList.add("button");
+    button.setAttribute("onclick", "addField()");
+    btnPath.appendChild(button);
 
+    var button = document.createElement("button");
+    button.innerHTML = "Import Ledger Accounts";
+    button.classList.add("button");
+    button.classList.add("is-link");
+    button.classList.add("ml-5");
+    button.setAttribute("onclick", "addLedgerPaths()");
+    btnPath.appendChild(button);
+}
+
+function addField() {
+    // Container <div> where dynamic content will be placed
+    var container = document.getElementById("paths");
+    // Append a node with a label
+    var para = document.createElement("p");
+    para.innerHTML = "Account " + (i + 1);
+    para.classList.add("label");
+    para.classList.add("mt-3");
+    container.appendChild(para);
+    // Create an <input> element, set its type and name attributes
+    var input = document.createElement("input");
+    input.type = "text";
+    input.value = "44'/397'/0'/0'/" + (i + 2) + "'";
+    input.name = "path" + i;
+    input.classList.add("input");
+    container.appendChild(input);
+    i++;
+}
+
+Object.assign(window, {
+    nearAPI,
+    addLedgerPaths,
+    loadAccounts,
+    selectPool,
+    stake,
+    unstake,
+    withdraw,
+    addFields,
+});
