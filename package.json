@@ -15,8 +15,8 @@
     "node-sass": "^4.14.1"
   },
   "scripts": {
-    "start": "parcel index.html --https",
-    "build": "parcel build index.html --public-url ./",
+    "start": "parcel *.html --https",
+    "build": "parcel build *.html --public-url ./",
     "deploy": "npm run build; yarn gh-pages -d dist",
     "fix": "eslint --ext .js --ext .jsx . --fix",
     "css-build": "node-sass --omit-source-map-url sass/style.scss css/style.css",
