@@ -199,11 +199,12 @@ function renderAccounts(accounts) {
             row.querySelector('.delegator.complete').style = '';
         }
 
+        const selectValidatorModal = document.querySelector('#validators')
         const selectValidatorElem = row.querySelector('.select-validator');
         selectValidatorElem.onclick = () => {
-            toggleModal();
+            toggleModal(selectValidatorModal);
             document.querySelector('.select-pool').onclick = () => {
-                selectPool(accountId).then(toggleModal).catch(console.error);
+                selectPool(accountId).then(() => toggleModal(selectValidatorModal)).catch(console.error);
             }
         }
 

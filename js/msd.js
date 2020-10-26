@@ -1,17 +1,17 @@
-var modal = document.querySelector(".modal");
-var closeButton = document.querySelector(".close-button");
 
-function toggleModal() {
+function toggleModal(modal) {
     modal.classList.toggle("is-active");
+
+    const closeButton = modal.querySelector(".close-button");
+    closeButton.addEventListener("click", () => toggleModal(modal));
 }
 
 function windowOnClick(event) {
-    if (event.target === modal) {
-        toggleModal();
+    if (event.target.classList.contains('modal')) {
+        toggleModal(modal);
     }
 }
 
-closeButton.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
 
 window.toggleModal = toggleModal;
