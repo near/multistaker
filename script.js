@@ -83,13 +83,12 @@ async function loadAccounts() {
     let totalAmount = 0, totalStaked = 0, totalUnstaked = 0;
     accounts = await Promise.all(accounts.map(async ({ publicKey, path, accountId }) => {
         let lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
-        let amount = 0, depositedAmount = 0, stakedAmount = 0, unstakedAmount = 0;
+        let amount = 0, depositedAmount = 0, stakedAmount = 0, unstakedAmount = 0, canWithdraw = false;
         let pool = null;
         if (await accountExists(window.near.connection, lockupAccountId)) {
             try {
                 let lockupAccount = await window.near.account(lockupAccountId);
-                let state = await lockupAccount.state();
-                amount = nearAPI.utils.format.formatNearAmount(state.amount, 2);
+                amount = nearAPI.utils.format.formatNearAmount((await lockupAccount.state()).amount, 2);
                 pool = await lockupAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id', {});
                 depositedAmount = nearAPI.utils.format.formatNearAmount(
                     await lockupAccount.viewFunction(lockupAccountId, 'get_known_deposited_balance'), 2);
@@ -99,6 +98,7 @@ async function loadAccounts() {
                         await lockupAccount.viewFunction(pool, 'get_account_staked_balance', { "account_id": lockupAccountId }), 2);
                     unstakedAmount = nearAPI.utils.format.formatNearAmount(
                         await lockupAccount.viewFunction(pool, 'get_account_unstaked_balance', { "account_id": lockupAccountId }), 2);
+                    canWithdraw = await lockupAccount.viewFunction(pool, 'is_account_unstaked_balance_available', { account_id: lockupAccountId });
                     totalStaked += parseFloat(stakedAmount.replaceAll(',', ''));
                     totalUnstaked += parseFloat(unstakedAmount.replaceAll(',', ''));
                 }
@@ -119,10 +119,11 @@ async function loadAccounts() {
             depositedAmount,
             stakedAmount,
             unstakedAmount,
+            canWithdraw: unstakedAmount != "0" ? `(${canWithdraw})` : "",
             pool
         }
     }));
-    totalAmount += totalStaked;
+    totalAmount += totalStaked + totalUnstaked;
     let lastStakeTime = new Date(window.localStorage.getItem('last-stake-time'));
     let elapsedMin = Math.round((new Date() - lastStakeTime) / 1000) / 60;
     let account = await window.near.account('lockup.near');
@@ -338,7 +339,7 @@ async function unstake() {
             return;
         }
         await setAccountSigner(account, path, publicKey);
-        if (amount == "0") {
+        if (amount == "0" || !amount) {
             await account.functionCall(
                 lockupAccountId,
                 'unstake_all',
@@ -373,7 +374,7 @@ async function withdraw() {
             return;
         }
         await setAccountSigner(account, path, publicKey);
-        if (amount == "0") {
+        if (amount == "0" || !amount) {
             await account.functionCall(
                 lockupAccountId,
                 'withdraw_all_from_staking_pool',
