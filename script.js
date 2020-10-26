@@ -188,7 +188,7 @@ function renderAccounts(accounts) {
         row.querySelector('.available-to-stake').innerHTML = formatFloat(amount);
         // TODO: Use totalAmount?
         row.querySelector('.total-balance').innerHTML = formatFloat(amount);
-        row.querySelector('.pool-account-id').innerHTML = pool;
+        Array.from(row.querySelectorAll('.pool-account-id')).forEach(elem => elem.innerHTML = pool);
         row.querySelector('.staked-amount').innerHTML = formatFloat(stakedAmount);
 
         if (!pool) {
