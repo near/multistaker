@@ -13,3 +13,5 @@ function windowOnClick(event) {
 
 closeButton.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
+
+window.toggleModal = toggleModal;

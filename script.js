@@ -131,12 +131,36 @@ async function loadAccounts() {
     let elapsedMin = Math.round((new Date() - lastStakeTime) / 1000) / 60;
     let account = await window.near.account('lockup.near');
     let pools = await fetchPools(account);
-    console.log(pools);
+    pools.sort((a, b) => a.accountId < b.accountId ? -1 : (a.accountId > b.accountId ? 1 : 0));
 
+    renderPools(pools);
+    renderAccounts(accounts);
+}
+
+function renderPools(pools) {
+    const poolAccountSelect = document.querySelector('#validators .pool-account-id');
+    if (!poolAccountSelect) {
+        return;
+    }
+
+    poolAccountSelect.innerHTML = '';
+    poolAccountSelect.add(new Option('Choose..', ''));
+    for (const pool of pools) {
+        const {
+            accountId,
+            stake,
+            fee
+        } = pool;
+        poolAccountSelect.add(new Option(`${accountId} -- ${fee} -- ${stake}`, accountId,));
+    }
+}
+
+function renderAccounts(accounts) {
     const accountsSection = document.getElementById('accounts');
     if (!accountsSection) {
         return;
     }
+
     accountsSection.innerHTML = '';
     const rowTemplate = document.querySelector('#templates .account')
     for (let account of accounts) {
@@ -167,6 +191,23 @@ async function loadAccounts() {
         row.querySelector('.pool-account-id').innerHTML = pool;
         row.querySelector('.staked-amount').innerHTML = formatFloat(stakedAmount);
 
+        if (!pool) {
+            row.querySelector('.delegator.select-validator').style = '';
+        } else if (!stakedAmount || stakedAmount == '0') {
+            row.querySelector('.delegator.enter-stake-amount').style = '';
+        } else {
+            row.querySelector('.delegator.complete').style = '';
+        }
+
+        const selectValidatorElem = row.querySelector('.select-validator');
+        if (selectValidatorElem) {
+            selectValidatorElem.onclick = () => {
+                toggleModal();
+                document.querySelector('.select-pool').onclick = () => {
+                    selectPool(accountId).then(toggleModal).catch(console.error);
+                }
+            }
+        }
         accountsSection.appendChild(row);
     }
 }
@@ -244,14 +285,14 @@ function findAccount(accountId) {
     return { path, publicKey };
 }
 
-async function selectPool() {
-    let accountId = document.querySelector('#account-id').value;
+async function selectPool(accountId) {
+    console.log('selectPool', accountId);
     let { path, publicKey } = findAccount(accountId);
     if (!path) {
         alert("How did you select this?");
         return;
     }
-    let poolId = document.querySelector('#select-pool-id').value;
+    let poolId = document.querySelector('.pool-account-id').value;
     let lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
     console.log(`Select ${poolId} for ${path} / ${accountId} / ${lockupAccountId}`);
     if (!await accountExists(window.near.connection, poolId)) {
@@ -402,3 +443,4 @@ window.selectPool = selectPool;
 window.stake = stake;
 window.unstake = unstake;
 window.withdraw = withdraw;
+
