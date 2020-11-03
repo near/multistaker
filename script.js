@@ -79,6 +79,10 @@ async function fetchPools(masterAccount) {
 
 async function loadAccounts() {
     let accounts = getAccounts();
+    let account = await window.near.account('lockup.near');
+    let pools = await fetchPools(account);
+    let poolsSet = new Set();
+    pools.forEach(({ accountId }) => poolsSet.add(accountId));
     const template = document.getElementById('template').innerHTML;
     let totalAmount = 0, totalStaked = 0, totalUnstaked = 0;
     accounts = await Promise.all(accounts.map(async ({ publicKey, path, accountId }) => {
@@ -120,15 +124,14 @@ async function loadAccounts() {
             stakedAmount,
             unstakedAmount,
             canWithdraw: unstakedAmount != "0" ? `(${canWithdraw})` : "",
-            pool
+            pool,
+            poolActive: poolsSet.has(pool) ? "active" : "out",
         }
     }));
     totalAmount += totalStaked + totalUnstaked;
     let lastStakeTime = new Date(window.localStorage.getItem('last-stake-time'));
     let elapsedMin = Math.round((new Date() - lastStakeTime) / 1000) / 60;
-    let account = await window.near.account('lockup.near');
-    let pools = await fetchPools(account);
-    console.log(pools);
+    console.log(poolsSet);
     document.getElementById('accounts').innerHTML = Mustache.render(template, {
         accounts,
         lastStakeTime,

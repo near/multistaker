@@ -36,7 +36,7 @@
               <th>Pool</th>
               <th>Deposited amount</th>
               <th>Staked amount</th>
-              <th>Unstaked amount (can withdraw)</th>
+              <th>Unstaked amount<br>(can withdraw)</th>
             </tr>
         </thead>
         {{#accounts}}
@@ -45,7 +45,7 @@
                 <td><a href="https://explorer.near.org/accounts/{{ accountId }}">{{ accountIdShort }}</a></td>
                 <td><a href="https://explorer.near.org/accounts/{{ lockupAccountId }}">{{ lockupIdShort }}</td> 
                 <td>{{ amount }}</td>
-                <td>{{ pool }}</td>
+                <td>{{ pool }} ({{ poolActive }})</td>
                 <td>{{ depositedAmount }}</td>
                 <td>{{ stakedAmount }}</td>
                 <td>{{ unstakedAmount }} {{ canWithdraw }}</td>
@@ -80,24 +80,10 @@
       <button onclick="stake()">Stake</button>
       <h2>Unstake</h2>
       <p>Unstakes given amount, need to wait 3 epochs to withdraw after that. Use 0 or nothing to unstake all</p>
-      <div>
-        <select id="unstake-account-id">
-            {{#accounts}}
-              <option value="{{ accountId }}">{{ path }} -- {{ accountIdShort }}</option>
-            {{/accounts}}
-        </select>
-      </div>
       <input id="unstake-amount" placeholder="Amount in $NEAR" />
       <button onclick="unstake()">Unstake</button>
       <h2>Withdraw</h2>
       <p>Before withdrawing, you must unstake and wait for 3 epochs (36 hours). Use 0 or nothing to withdraw all unstaked</p>
-      <div>
-        <select id="withdraw-account-id">
-            {{#accounts}}
-              <option value="{{ accountId }}">{{ path }} -- {{ accountIdShort }}</option>
-            {{/accounts}}
-        </select>
-      </div>
       <input id="withdraw-amount" placeholder="Amount in $NEAR" />
       <button onclick="withdraw()">Withdraw</button>
     </script>
