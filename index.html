@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>MultiStaker</title><link rel="stylesheet" href="style.2484efd3.css"><script src="script.2df2c2e6.js" defer></script></head><body> <h1>Tool to stake many accounts with one Ledger</h1> <script id="template" type="x-tmpl-mustache">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>MultiStaker</title><link rel="stylesheet" href="style.2484efd3.css"><script src="script.0ff773d2.js" defer></script></head><body> <h1>Tool to stake many accounts with one Ledger</h1> <script id="template" type="x-tmpl-mustache">
       <p>Start path range (e.g. 44'/397'/0'/0'/1'):</p>
       <input id="ledger-start" placeholder="path start 44'/397'/0'/0'/1'" value="44'/397'/0'/0'/1'" />
       <p>End path range (e.g. 44'/397'/0'/0'/10'):</p>
@@ -18,7 +18,7 @@
               <th>Pool</th>
               <th>Deposited amount</th>
               <th>Staked amount</th>
-              <th>Unstaked amount</th>
+              <th>Unstaked amount<br>(can withdraw)</th>
             </tr>
         </thead>
         {{#accounts}}
@@ -27,10 +27,10 @@
                 <td><a href="https://explorer.near.org/accounts/{{ accountId }}">{{ accountIdShort }}</a></td>
                 <td><a href="https://explorer.near.org/accounts/{{ lockupAccountId }}">{{ lockupIdShort }}</td> 
                 <td>{{ amount }}</td>
-                <td>{{ pool }}</td>
+                <td>{{ pool }} ({{ poolActive }})</td>
                 <td>{{ depositedAmount }}</td>
                 <td>{{ stakedAmount }}</td>
-                <td>{{ unstakedAmount }}</td>
+                <td>{{ unstakedAmount }} {{ canWithdraw }}</td>
             </tr>
         {{/accounts}}
       </table>
@@ -61,11 +61,11 @@
       <input id="stake-amount" placeholder="Amount in $NEAR" />
       <button onclick="stake()">Stake</button>
       <h2>Unstake</h2>
-      <p>Unstakes given amount, need to wait 3 epochs to withdraw after that. Use 0 to unstake all</p>
+      <p>Unstakes given amount, need to wait 3 epochs to withdraw after that. Use 0 or nothing to unstake all</p>
       <input id="unstake-amount" placeholder="Amount in $NEAR" />
       <button onclick="unstake()">Unstake</button>
       <h2>Withdraw</h2>
-      <p>Before withdrawing, you must unstake and wait for 3 epochs (36 hours). Use 0 to withdraw all unstaked</p>
+      <p>Before withdrawing, you must unstake and wait for 3 epochs (36 hours). Use 0 or nothing to withdraw all unstaked</p>
       <input id="withdraw-amount" placeholder="Amount in $NEAR" />
-      <button onclick="withdraw()">Unstake</button>
+      <button onclick="withdraw()">Withdraw</button>
     </script> <div id="accounts"></div> </body></html>

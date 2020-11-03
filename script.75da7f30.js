@@ -881,7 +881,7 @@ exports.KeyStore = KeyStore;
 
 },{}],"node_modules/parcel-bundler/src/builtins/_empty.js":[function(require,module,exports) {
 
-},{}],"node_modules/near-api-js/node_modules/tweetnacl/nacl-fast.js":[function(require,module,exports) {
+},{}],"node_modules/tweetnacl/nacl-fast.js":[function(require,module,exports) {
 (function(nacl) {
 'use strict';
 
@@ -5513,7 +5513,7 @@ var ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 
 module.exports = basex(ALPHABET)
 
-},{"base-x":"node_modules/base-x/src/index.js"}],"node_modules/near-api-js/node_modules/bn.js/lib/bn.js":[function(require,module,exports) {
+},{"base-x":"node_modules/base-x/src/index.js"}],"node_modules/bn.js/lib/bn.js":[function(require,module,exports) {
 var Buffer = require("buffer").Buffer;
 (function (module, exports) {
   'use strict';
@@ -10043,7 +10043,7 @@ function deserialize(schema, classType, buffer) {
 }
 exports.deserialize = deserialize;
 
-},{"bs58":"node_modules/bs58/index.js","bn.js":"node_modules/near-api-js/node_modules/bn.js/lib/bn.js","text-encoding-utf-8":"node_modules/text-encoding-utf-8/lib/encoding.lib.js","buffer":"node_modules/buffer/index.js"}],"node_modules/near-api-js/lib/utils/enums.js":[function(require,module,exports) {
+},{"bs58":"node_modules/bs58/index.js","bn.js":"node_modules/bn.js/lib/bn.js","text-encoding-utf-8":"node_modules/text-encoding-utf-8/lib/encoding.lib.js","buffer":"node_modules/buffer/index.js"}],"node_modules/near-api-js/lib/utils/enums.js":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Assignable = exports.Enum = void 0;
@@ -10196,7 +10196,7 @@ class KeyPairEd25519 extends KeyPair {
 }
 exports.KeyPairEd25519 = KeyPairEd25519;
 
-},{"tweetnacl":"node_modules/near-api-js/node_modules/tweetnacl/nacl-fast.js","./serialize":"node_modules/near-api-js/lib/utils/serialize.js","./enums":"node_modules/near-api-js/lib/utils/enums.js"}],"node_modules/near-api-js/lib/key_stores/in_memory_key_store.js":[function(require,module,exports) {
+},{"tweetnacl":"node_modules/tweetnacl/nacl-fast.js","./serialize":"node_modules/near-api-js/lib/utils/serialize.js","./enums":"node_modules/near-api-js/lib/utils/enums.js"}],"node_modules/near-api-js/lib/key_stores/in_memory_key_store.js":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InMemoryKeyStore = void 0;
@@ -10530,7 +10530,7 @@ function adaptTransactionResult(txResult) {
 }
 exports.adaptTransactionResult = adaptTransactionResult;
 
-},{"buffer":"node_modules/buffer/index.js"}],"node_modules/near-api-js/node_modules/depd/lib/browser/index.js":[function(require,module,exports) {
+},{"buffer":"node_modules/buffer/index.js"}],"node_modules/depd/lib/browser/index.js":[function(require,module,exports) {
 /*!
  * depd
  * Copyright(c) 2015 Douglas Christopher Wilson
@@ -10602,7 +10602,7 @@ function wrapproperty(obj, prop, message) {
     throw new TypeError('property must be configurable');
   }
 }
-},{}],"node_modules/depd/lib/browser/index.js":[function(require,module,exports) {
+},{}],"node_modules/http-errors/node_modules/depd/lib/browser/index.js":[function(require,module,exports) {
 /*!
  * depd
  * Copyright(c) 2015 Douglas Christopher Wilson
@@ -11201,7 +11201,7 @@ function populateConstructorExports(exports, codes, HttpError) {
 function toClassName(name) {
   return name.substr(-5) !== 'Error' ? name + 'Error' : name;
 }
-},{"depd":"node_modules/depd/lib/browser/index.js","setprototypeof":"node_modules/setprototypeof/index.js","statuses":"node_modules/statuses/index.js","inherits":"node_modules/inherits/inherits_browser.js","toidentifier":"node_modules/toidentifier/index.js"}],"node_modules/near-api-js/lib/utils/exponential-backoff.js":[function(require,module,exports) {
+},{"depd":"node_modules/http-errors/node_modules/depd/lib/browser/index.js","setprototypeof":"node_modules/setprototypeof/index.js","statuses":"node_modules/statuses/index.js","inherits":"node_modules/inherits/inherits_browser.js","toidentifier":"node_modules/toidentifier/index.js"}],"node_modules/near-api-js/lib/utils/exponential-backoff.js":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 async function exponentialBackoff(startWaitTime, retryNumber, waitBackoff, getResult) {
@@ -13245,7 +13245,72 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
-},{"process-nextick-args":"node_modules/process-nextick-args/index.js","core-util-is":"node_modules/core-util-is/lib/util.js","inherits":"node_modules/inherits/inherits_browser.js","./_stream_readable":"node_modules/readable-stream/lib/_stream_readable.js","./_stream_writable":"node_modules/readable-stream/lib/_stream_writable.js"}],"node_modules/readable-stream/node_modules/string_decoder/lib/string_decoder.js":[function(require,module,exports) {
+},{"process-nextick-args":"node_modules/process-nextick-args/index.js","core-util-is":"node_modules/core-util-is/lib/util.js","inherits":"node_modules/inherits/inherits_browser.js","./_stream_readable":"node_modules/readable-stream/lib/_stream_readable.js","./_stream_writable":"node_modules/readable-stream/lib/_stream_writable.js"}],"node_modules/string_decoder/node_modules/safe-buffer/index.js":[function(require,module,exports) {
+
+/* eslint-disable node/no-deprecated-api */
+var buffer = require('buffer')
+var Buffer = buffer.Buffer
+
+// alternative to using Object.keys for old browsers
+function copyProps (src, dst) {
+  for (var key in src) {
+    dst[key] = src[key]
+  }
+}
+if (Buffer.from && Buffer.alloc && Buffer.allocUnsafe && Buffer.allocUnsafeSlow) {
+  module.exports = buffer
+} else {
+  // Copy properties from require('buffer')
+  copyProps(buffer, exports)
+  exports.Buffer = SafeBuffer
+}
+
+function SafeBuffer (arg, encodingOrOffset, length) {
+  return Buffer(arg, encodingOrOffset, length)
+}
+
+// Copy static methods from Buffer
+copyProps(Buffer, SafeBuffer)
+
+SafeBuffer.from = function (arg, encodingOrOffset, length) {
+  if (typeof arg === 'number') {
+    throw new TypeError('Argument must not be a number')
+  }
+  return Buffer(arg, encodingOrOffset, length)
+}
+
+SafeBuffer.alloc = function (size, fill, encoding) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  var buf = Buffer(size)
+  if (fill !== undefined) {
+    if (typeof encoding === 'string') {
+      buf.fill(fill, encoding)
+    } else {
+      buf.fill(fill)
+    }
+  } else {
+    buf.fill(0)
+  }
+  return buf
+}
+
+SafeBuffer.allocUnsafe = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return Buffer(size)
+}
+
+SafeBuffer.allocUnsafeSlow = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return buffer.SlowBuffer(size)
+}
+
+},{"buffer":"node_modules/buffer/index.js"}],"node_modules/string_decoder/lib/string_decoder.js":[function(require,module,exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -13543,7 +13608,7 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"safe-buffer":"node_modules/readable-stream/node_modules/safe-buffer/index.js"}],"node_modules/readable-stream/lib/_stream_readable.js":[function(require,module,exports) {
+},{"safe-buffer":"node_modules/string_decoder/node_modules/safe-buffer/index.js"}],"node_modules/readable-stream/lib/_stream_readable.js":[function(require,module,exports) {
 
 var global = arguments[3];
 var process = require("process");
@@ -14566,7 +14631,7 @@ function indexOf(xs, x) {
   }
   return -1;
 }
-},{"process-nextick-args":"node_modules/process-nextick-args/index.js","isarray":"node_modules/isarray/index.js","events":"node_modules/events/events.js","./internal/streams/stream":"node_modules/readable-stream/lib/internal/streams/stream-browser.js","safe-buffer":"node_modules/readable-stream/node_modules/safe-buffer/index.js","core-util-is":"node_modules/core-util-is/lib/util.js","inherits":"node_modules/inherits/inherits_browser.js","util":"node_modules/parcel-bundler/src/builtins/_empty.js","./internal/streams/BufferList":"node_modules/readable-stream/lib/internal/streams/BufferList.js","./internal/streams/destroy":"node_modules/readable-stream/lib/internal/streams/destroy.js","./_stream_duplex":"node_modules/readable-stream/lib/_stream_duplex.js","string_decoder/":"node_modules/readable-stream/node_modules/string_decoder/lib/string_decoder.js","process":"node_modules/process/browser.js"}],"node_modules/readable-stream/lib/_stream_transform.js":[function(require,module,exports) {
+},{"process-nextick-args":"node_modules/process-nextick-args/index.js","isarray":"node_modules/isarray/index.js","events":"node_modules/events/events.js","./internal/streams/stream":"node_modules/readable-stream/lib/internal/streams/stream-browser.js","safe-buffer":"node_modules/readable-stream/node_modules/safe-buffer/index.js","core-util-is":"node_modules/core-util-is/lib/util.js","inherits":"node_modules/inherits/inherits_browser.js","util":"node_modules/parcel-bundler/src/builtins/_empty.js","./internal/streams/BufferList":"node_modules/readable-stream/lib/internal/streams/BufferList.js","./internal/streams/destroy":"node_modules/readable-stream/lib/internal/streams/destroy.js","./_stream_duplex":"node_modules/readable-stream/lib/_stream_duplex.js","string_decoder/":"node_modules/string_decoder/lib/string_decoder.js","process":"node_modules/process/browser.js"}],"node_modules/readable-stream/lib/_stream_transform.js":[function(require,module,exports) {
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -19232,7 +19297,7 @@ class JsonRpcProvider extends provider_1.Provider {
 }
 exports.JsonRpcProvider = JsonRpcProvider;
 
-},{"depd":"node_modules/near-api-js/node_modules/depd/lib/browser/index.js","./provider":"node_modules/near-api-js/lib/providers/provider.js","../utils/web":"node_modules/near-api-js/lib/utils/web.js","../utils/errors":"node_modules/near-api-js/lib/utils/errors.js","../utils/serialize":"node_modules/near-api-js/lib/utils/serialize.js","../utils/rpc_errors":"node_modules/near-api-js/lib/utils/rpc_errors.js","buffer":"node_modules/buffer/index.js"}],"node_modules/near-api-js/lib/providers/index.js":[function(require,module,exports) {
+},{"depd":"node_modules/depd/lib/browser/index.js","./provider":"node_modules/near-api-js/lib/providers/provider.js","../utils/web":"node_modules/near-api-js/lib/utils/web.js","../utils/errors":"node_modules/near-api-js/lib/utils/errors.js","../utils/serialize":"node_modules/near-api-js/lib/utils/serialize.js","../utils/rpc_errors":"node_modules/near-api-js/lib/utils/rpc_errors.js","buffer":"node_modules/buffer/index.js"}],"node_modules/near-api-js/lib/providers/index.js":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ErrorContext = exports.TypedError = exports.getTransactionLastResult = exports.FinalExecutionStatusBasic = exports.JsonRpcProvider = exports.Provider = void 0;
@@ -19357,7 +19422,7 @@ function formatWithCommas(value) {
     return value;
 }
 
-},{"bn.js":"node_modules/near-api-js/node_modules/bn.js/lib/bn.js"}],"node_modules/near-api-js/lib/utils/index.js":[function(require,module,exports) {
+},{"bn.js":"node_modules/bn.js/lib/bn.js"}],"node_modules/near-api-js/lib/utils/index.js":[function(require,module,exports) {
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -20212,7 +20277,7 @@ function diffEpochValidators(currentValidators, nextValidators) {
 }
 exports.diffEpochValidators = diffEpochValidators;
 
-},{"bn.js":"node_modules/near-api-js/node_modules/bn.js/lib/bn.js"}],"node_modules/near-api-js/lib/account.js":[function(require,module,exports) {
+},{"bn.js":"node_modules/bn.js/lib/bn.js"}],"node_modules/near-api-js/lib/account.js":[function(require,module,exports) {
 var Buffer = require("buffer").Buffer;
 'use strict';
 var __importDefault = (this && this.__importDefault) || function (mod) {
@@ -20551,7 +20616,7 @@ class Account {
 }
 exports.Account = Account;
 
-},{"bn.js":"node_modules/near-api-js/node_modules/bn.js/lib/bn.js","./transaction":"node_modules/near-api-js/lib/transaction.js","./providers":"node_modules/near-api-js/lib/providers/index.js","./utils/serialize":"node_modules/near-api-js/lib/utils/serialize.js","./utils/key_pair":"node_modules/near-api-js/lib/utils/key_pair.js","./utils/errors":"node_modules/near-api-js/lib/utils/errors.js","./utils/rpc_errors":"node_modules/near-api-js/lib/utils/rpc_errors.js","./utils/exponential-backoff":"node_modules/near-api-js/lib/utils/exponential-backoff.js","buffer":"node_modules/buffer/index.js"}],"node_modules/near-api-js/lib/account_creator.js":[function(require,module,exports) {
+},{"bn.js":"node_modules/bn.js/lib/bn.js","./transaction":"node_modules/near-api-js/lib/transaction.js","./providers":"node_modules/near-api-js/lib/providers/index.js","./utils/serialize":"node_modules/near-api-js/lib/utils/serialize.js","./utils/key_pair":"node_modules/near-api-js/lib/utils/key_pair.js","./utils/errors":"node_modules/near-api-js/lib/utils/errors.js","./utils/rpc_errors":"node_modules/near-api-js/lib/utils/rpc_errors.js","./utils/exponential-backoff":"node_modules/near-api-js/lib/utils/exponential-backoff.js","buffer":"node_modules/buffer/index.js"}],"node_modules/near-api-js/lib/account_creator.js":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UrlAccountCreator = exports.LocalAccountCreator = exports.AccountCreator = void 0;
@@ -20787,7 +20852,7 @@ function validateBNLike(argMap) {
     }
 }
 
-},{"bn.js":"node_modules/near-api-js/node_modules/bn.js/lib/bn.js","./providers":"node_modules/near-api-js/lib/providers/index.js","./utils/errors":"node_modules/near-api-js/lib/utils/errors.js"}],"node_modules/path-browserify/index.js":[function(require,module,exports) {
+},{"bn.js":"node_modules/bn.js/lib/bn.js","./providers":"node_modules/near-api-js/lib/providers/index.js","./utils/errors":"node_modules/near-api-js/lib/utils/errors.js"}],"node_modules/path-browserify/index.js":[function(require,module,exports) {
 var process = require("process");
 // .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
 // backported and transplited with Babel, with backwards-compat fixes
@@ -22100,7 +22165,7 @@ async function connect(config) {
 }
 exports.connect = connect;
 
-},{"bn.js":"node_modules/near-api-js/node_modules/bn.js/lib/bn.js","./account":"node_modules/near-api-js/lib/account.js","./connection":"node_modules/near-api-js/lib/connection.js","./contract":"node_modules/near-api-js/lib/contract.js","./key_stores/unencrypted_file_system_keystore":"node_modules/near-api-js/lib/key_stores/unencrypted_file_system_keystore.js","./account_creator":"node_modules/near-api-js/lib/account_creator.js","./key_stores":"node_modules/near-api-js/lib/key_stores/index.js"}],"node_modules/near-api-js/lib/wallet-account.js":[function(require,module,exports) {
+},{"bn.js":"node_modules/bn.js/lib/bn.js","./account":"node_modules/near-api-js/lib/account.js","./connection":"node_modules/near-api-js/lib/connection.js","./contract":"node_modules/near-api-js/lib/contract.js","./key_stores/unencrypted_file_system_keystore":"node_modules/near-api-js/lib/key_stores/unencrypted_file_system_keystore.js","./account_creator":"node_modules/near-api-js/lib/account_creator.js","./key_stores":"node_modules/near-api-js/lib/key_stores/index.js"}],"node_modules/near-api-js/lib/wallet-account.js":[function(require,module,exports) {
 var Buffer = require("buffer").Buffer;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -24558,32 +24623,47 @@ function loadAccounts() {
 
 function _loadAccounts() {
   _loadAccounts = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-    var accounts, template, totalAmount, totalStaked, totalUnstaked, lastStakeTime, elapsedMin, account, pools;
+    var accounts, account, pools, poolsSet, template, totalAmount, totalStaked, totalUnstaked, lastStakeTime, elapsedMin;
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
             accounts = getAccounts();
+            _context6.next = 3;
+            return window.near.account('lockup.near');
+
+          case 3:
+            account = _context6.sent;
+            _context6.next = 6;
+            return fetchPools(account);
+
+          case 6:
+            pools = _context6.sent;
+            poolsSet = new Set();
+            pools.forEach(function (_ref3) {
+              var accountId = _ref3.accountId;
+              return poolsSet.add(accountId);
+            });
             template = document.getElementById('template').innerHTML;
             totalAmount = 0, totalStaked = 0, totalUnstaked = 0;
-            _context6.next = 5;
+            _context6.next = 13;
             return Promise.all(accounts.map( /*#__PURE__*/function () {
-              var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(_ref3) {
-                var publicKey, path, accountId, lockupAccountId, amount, depositedAmount, stakedAmount, unstakedAmount, pool, lockupAccount, state, accountIdShort, lockupIdShort;
+              var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(_ref4) {
+                var publicKey, path, accountId, lockupAccountId, amount, depositedAmount, stakedAmount, unstakedAmount, canWithdraw, pool, lockupAccount, accountIdShort, lockupIdShort;
                 return regeneratorRuntime.wrap(function _callee5$(_context5) {
                   while (1) {
                     switch (_context5.prev = _context5.next) {
                       case 0:
-                        publicKey = _ref3.publicKey, path = _ref3.path, accountId = _ref3.accountId;
+                        publicKey = _ref4.publicKey, path = _ref4.path, accountId = _ref4.accountId;
                         lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
-                        amount = 0, depositedAmount = 0, stakedAmount = 0, unstakedAmount = 0;
+                        amount = 0, depositedAmount = 0, stakedAmount = 0, unstakedAmount = 0, canWithdraw = false;
                         pool = null;
                         _context5.next = 6;
                         return accountExists(window.near.connection, lockupAccountId);
 
                       case 6:
                         if (!_context5.sent) {
-                          _context5.next = 42;
+                          _context5.next = 46;
                           break;
                         }
 
@@ -24593,62 +24673,70 @@ function _loadAccounts() {
 
                       case 10:
                         lockupAccount = _context5.sent;
-                        _context5.next = 13;
+                        _context5.t0 = nearAPI.utils.format;
+                        _context5.next = 14;
                         return lockupAccount.state();
 
-                      case 13:
-                        state = _context5.sent;
-                        amount = nearAPI.utils.format.formatNearAmount(state.amount, 2);
-                        _context5.next = 17;
+                      case 14:
+                        _context5.t1 = _context5.sent.amount;
+                        amount = _context5.t0.formatNearAmount.call(_context5.t0, _context5.t1, 2);
+                        _context5.next = 18;
                         return lockupAccount.viewFunction(lockupAccountId, 'get_staking_pool_account_id', {});
 
-                      case 17:
+                      case 18:
                         pool = _context5.sent;
-                        _context5.t0 = nearAPI.utils.format;
-                        _context5.next = 21;
+                        _context5.t2 = nearAPI.utils.format;
+                        _context5.next = 22;
                         return lockupAccount.viewFunction(lockupAccountId, 'get_known_deposited_balance');
 
-                      case 21:
-                        _context5.t1 = _context5.sent;
-                        depositedAmount = _context5.t0.formatNearAmount.call(_context5.t0, _context5.t1, 2);
+                      case 22:
+                        _context5.t3 = _context5.sent;
+                        depositedAmount = _context5.t2.formatNearAmount.call(_context5.t2, _context5.t3, 2);
                         totalAmount += parseFloat(amount.replaceAll(',', ''));
 
                         if (!pool) {
-                          _context5.next = 37;
+                          _context5.next = 41;
                           break;
                         }
 
-                        _context5.t2 = nearAPI.utils.format;
-                        _context5.next = 28;
+                        _context5.t4 = nearAPI.utils.format;
+                        _context5.next = 29;
                         return lockupAccount.viewFunction(pool, 'get_account_staked_balance', {
                           "account_id": lockupAccountId
                         });
 
-                      case 28:
-                        _context5.t3 = _context5.sent;
-                        stakedAmount = _context5.t2.formatNearAmount.call(_context5.t2, _context5.t3, 2);
-                        _context5.t4 = nearAPI.utils.format;
-                        _context5.next = 33;
+                      case 29:
+                        _context5.t5 = _context5.sent;
+                        stakedAmount = _context5.t4.formatNearAmount.call(_context5.t4, _context5.t5, 2);
+                        _context5.t6 = nearAPI.utils.format;
+                        _context5.next = 34;
                         return lockupAccount.viewFunction(pool, 'get_account_unstaked_balance', {
                           "account_id": lockupAccountId
                         });
 
-                      case 33:
-                        _context5.t5 = _context5.sent;
-                        unstakedAmount = _context5.t4.formatNearAmount.call(_context5.t4, _context5.t5, 2);
+                      case 34:
+                        _context5.t7 = _context5.sent;
+                        unstakedAmount = _context5.t6.formatNearAmount.call(_context5.t6, _context5.t7, 2);
+                        _context5.next = 38;
+                        return lockupAccount.viewFunction(pool, 'is_account_unstaked_balance_available', {
+                          account_id: lockupAccountId
+                        });
+
+                      case 38:
+                        canWithdraw = _context5.sent;
                         totalStaked += parseFloat(stakedAmount.replaceAll(',', ''));
                         totalUnstaked += parseFloat(unstakedAmount.replaceAll(',', ''));
 
-                      case 37:
-                        _context5.next = 42;
+                      case 41:
+                        _context5.next = 46;
                         break;
 
-                      case 39:
-                        _context5.prev = 39;
-                        _context5.t6 = _context5["catch"](7);
-                        console.log(_context5.t6);
+                      case 43:
+                        _context5.prev = 43;
+                        _context5.t8 = _context5["catch"](7);
+                        console.log(_context5.t8);
 
-                      case 42:
+                      case 46:
                         accountIdShort = accountId.length > 32 ? "".concat(accountId.slice(0, 4), "..").concat(accountId.slice(-4)) : accountId;
                         lockupIdShort = "".concat(lockupAccountId.slice(0, 4), "..");
                         return _context5.abrupt("return", {
@@ -24662,38 +24750,30 @@ function _loadAccounts() {
                           depositedAmount: depositedAmount,
                           stakedAmount: stakedAmount,
                           unstakedAmount: unstakedAmount,
-                          pool: pool
+                          canWithdraw: unstakedAmount != "0" ? "(".concat(canWithdraw, ")") : "",
+                          pool: pool,
+                          poolActive: poolsSet.has(pool) ? "active" : "out"
                         });
 
-                      case 45:
+                      case 49:
                       case "end":
                         return _context5.stop();
                     }
                   }
-                }, _callee5, null, [[7, 39]]);
+                }, _callee5, null, [[7, 43]]);
               }));
 
               return function (_x8) {
-                return _ref4.apply(this, arguments);
+                return _ref5.apply(this, arguments);
               };
             }()));
 
-          case 5:
+          case 13:
             accounts = _context6.sent;
-            totalAmount += totalStaked;
+            totalAmount += totalStaked + totalUnstaked;
             lastStakeTime = new Date(window.localStorage.getItem('last-stake-time'));
             elapsedMin = Math.round((new Date() - lastStakeTime) / 1000) / 60;
-            _context6.next = 11;
-            return window.near.account('lockup.near');
-
-          case 11:
-            account = _context6.sent;
-            _context6.next = 14;
-            return fetchPools(account);
-
-          case 14:
-            pools = _context6.sent;
-            console.log(pools);
+            console.log(poolsSet);
             document.getElementById('accounts').innerHTML = _mustache.default.render(template, {
               accounts: accounts,
               lastStakeTime: lastStakeTime,
@@ -24704,7 +24784,7 @@ function _loadAccounts() {
               pools: pools
             });
 
-          case 17:
+          case 19:
           case "end":
             return _context6.stop();
         }
@@ -24809,8 +24889,8 @@ function _addLedgerPath() {
           case 8:
             client = _context9.sent;
             accounts = getAccounts();
-            accountIds = accounts.map(function (_ref5) {
-              var accountId = _ref5.accountId;
+            accountIds = accounts.map(function (_ref6) {
+              var accountId = _ref6.accountId;
               return accountId;
             });
             _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop(i) {
@@ -25224,7 +25304,7 @@ function _unstake() {
             return setAccountSigner(account, path, publicKey);
 
           case 18:
-            if (!(amount == "0")) {
+            if (!(amount == "0" || !amount)) {
               _context15.next = 23;
               break;
             }
@@ -25309,7 +25389,7 @@ function _withdraw() {
             return setAccountSigner(account, path, publicKey);
 
           case 18:
-            if (!(amount == "0")) {
+            if (!(amount == "0" || !amount)) {
               _context16.next = 23;
               break;
             }
@@ -25385,7 +25465,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59527" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53369" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
