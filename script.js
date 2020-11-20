@@ -397,9 +397,36 @@ async function withdraw() {
     await loadAccounts();
 }
 
+async function transfer() {
+    let accountId = document.querySelector('#account-id').value;
+    let { path, publicKey } = findAccount(accountId);
+    let receiver_id = document.querySelector('#transfer-receiver').value;
+    let amount = document.querySelector('#transfer-amount').value;
+    console.log(`Transfer ${amount} from ${path} / ${accountId} to ${receiver_id}`);
+    amount = nearAPI.utils.format.parseNearAmount(amount);
+    let lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
+    try {
+        let account = await window.near.account(accountId);
+        await setAccountSigner(account, path, publicKey);
+        if (await accountExists(window.near.connection, lockupAccountId)) {
+            if (!(await account.viewFunction(lockupAccountId, 'are_transfers_enabled'))) {
+                await account.functionCall(lockupAccountId, 'check_transfers_vote', {}, '100000000000000')
+            }
+            await account.functionCall(lockupAccountId, 'transfer', {
+                amount, receiver_id
+            }, '100000000000000');
+        }
+    } catch (error) {
+        console.log(error);
+        alert(error);
+    }
+    await loadAccounts();
+}
+
 window.nearAPI = nearAPI;
 window.addLedgerPath = addLedgerPath;
 window.selectPool = selectPool;
 window.stake = stake;
 window.unstake = unstake;
 window.withdraw = withdraw;
+window.transfer = transfer;

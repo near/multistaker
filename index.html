@@ -75,17 +75,26 @@
         <input id="select-pool-id" style="width: 175px; margin-left: -199px; margin-top: 1px; border: none; float: left;"/>
       </div>
       <button onclick="selectPool()">Select Pool</button>
+      
       <h2>Stake</h2>
       <input id="stake-amount" placeholder="Amount in $NEAR" />
       <button onclick="stake()">Stake</button>
+      
       <h2>Unstake</h2>
       <p>Unstakes given amount, need to wait 3 epochs to withdraw after that. Use 0 or nothing to unstake all</p>
       <input id="unstake-amount" placeholder="Amount in $NEAR" />
       <button onclick="unstake()">Unstake</button>
+      
       <h2>Withdraw</h2>
       <p>Before withdrawing, you must unstake and wait for 3 epochs (36 hours). Use 0 or nothing to withdraw all unstaked</p>
       <input id="withdraw-amount" placeholder="Amount in $NEAR" />
       <button onclick="withdraw()">Withdraw</button>
+      
+      <h2>Transfer from lockup</h2>
+      <p>Transfer from given account's lockup contract (must have enough unlocked tokens - will just show error if it's not enough)</p>
+      <input id="transfer-receiver" placeholder="Receiver" />
+      <input id="transfer-amount" placeholder="Amount in $NEAR" />
+      <button onclick="transfer()">Transfer</button>
     </script>
 
     <div id="accounts"></div>
