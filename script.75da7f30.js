@@ -25431,12 +25431,94 @@ function _withdraw() {
   return _withdraw.apply(this, arguments);
 }
 
+function transfer() {
+  return _transfer.apply(this, arguments);
+}
+
+function _transfer() {
+  _transfer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+    var accountId, _findAccount5, path, publicKey, receiver_id, amount, lockupAccountId, account;
+
+    return regeneratorRuntime.wrap(function _callee16$(_context17) {
+      while (1) {
+        switch (_context17.prev = _context17.next) {
+          case 0:
+            accountId = document.querySelector('#account-id').value;
+            _findAccount5 = findAccount(accountId), path = _findAccount5.path, publicKey = _findAccount5.publicKey;
+            receiver_id = document.querySelector('#transfer-receiver').value;
+            amount = document.querySelector('#transfer-amount').value;
+            console.log("Transfer ".concat(amount, " from ").concat(path, " / ").concat(accountId, " to ").concat(receiver_id));
+            amount = nearAPI.utils.format.parseNearAmount(amount);
+            lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
+            _context17.prev = 7;
+            _context17.next = 10;
+            return window.near.account(accountId);
+
+          case 10:
+            account = _context17.sent;
+            _context17.next = 13;
+            return setAccountSigner(account, path, publicKey);
+
+          case 13:
+            _context17.next = 15;
+            return accountExists(window.near.connection, lockupAccountId);
+
+          case 15:
+            if (!_context17.sent) {
+              _context17.next = 23;
+              break;
+            }
+
+            _context17.next = 18;
+            return account.viewFunction(lockupAccountId, 'are_transfers_enabled');
+
+          case 18:
+            if (_context17.sent) {
+              _context17.next = 21;
+              break;
+            }
+
+            _context17.next = 21;
+            return account.functionCall(lockupAccountId, 'check_transfers_vote', {}, '100000000000000');
+
+          case 21:
+            _context17.next = 23;
+            return account.functionCall(lockupAccountId, 'transfer', {
+              amount: amount,
+              receiver_id: receiver_id
+            }, '100000000000000');
+
+          case 23:
+            _context17.next = 29;
+            break;
+
+          case 25:
+            _context17.prev = 25;
+            _context17.t0 = _context17["catch"](7);
+            console.log(_context17.t0);
+            alert(_context17.t0);
+
+          case 29:
+            _context17.next = 31;
+            return loadAccounts();
+
+          case 31:
+          case "end":
+            return _context17.stop();
+        }
+      }
+    }, _callee16, null, [[7, 25]]);
+  }));
+  return _transfer.apply(this, arguments);
+}
+
 window.nearAPI = nearAPI;
 window.addLedgerPath = addLedgerPath;
 window.selectPool = selectPool;
 window.stake = stake;
 window.unstake = unstake;
 window.withdraw = withdraw;
+window.transfer = transfer;
 },{"regenerator-runtime":"node_modules/regenerator-runtime/runtime.js","near-api-js":"node_modules/near-api-js/lib/browser-index.js","js-sha256":"node_modules/js-sha256/src/sha256.js","bs58":"node_modules/bs58/index.js","mustache":"node_modules/mustache/mustache.js","./ledger.js":"ledger.js","near-api-js/lib/utils":"node_modules/near-api-js/lib/utils/index.js","buffer":"node_modules/buffer/index.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -25465,7 +25547,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53369" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60827" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
