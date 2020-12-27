@@ -78,6 +78,7 @@ async function fetchPools(masterAccount) {
 }
 
 async function loadAccounts() {
+    const selectedAccountId = window.location.hash.slice(1);
     let accounts = getAccounts();
     let account = await window.near.account('lockup.near');
     let pools = await fetchPools(account);
@@ -126,12 +127,14 @@ async function loadAccounts() {
             canWithdraw: unstakedAmount != "0" ? `(${canWithdraw})` : "",
             pool,
             poolActive: poolsSet.has(pool) ? "active" : "out",
+            selected: accountId == selectedAccountId,
         }
     }));
     totalAmount += totalStaked + totalUnstaked;
     let lastStakeTime = new Date(window.localStorage.getItem('last-stake-time'));
     let elapsedMin = Math.round((new Date() - lastStakeTime) / 1000) / 60;
     console.log(poolsSet);
+    console.log(window.location.hash);
     document.getElementById('accounts').innerHTML = Mustache.render(template, {
         accounts,
         lastStakeTime,
@@ -423,6 +426,28 @@ async function transfer() {
     await loadAccounts();
 }
 
+async function refreshStaking() {
+    let accountId = document.querySelector('#account-id').value;
+    let { path, publicKey } = findAccount(accountId);
+    let lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
+    try {
+        let account = await window.near.account(accountId);
+        await setAccountSigner(account, path, publicKey);
+        if (await accountExists(window.near.connection, lockupAccountId)) {
+            await account.functionCall(lockupAccountId, 'refresh_staking_pool_balance', {}, '100000000000000');
+        }
+    } catch (error) {
+        console.log(error);
+        alert(error);
+    }
+    await loadAccounts();
+}
+
+function onAccountSelect() {
+    let accountId = document.querySelector('#account-id').value;
+    window.location.hash = accountId;
+}
+
 window.nearAPI = nearAPI;
 window.addLedgerPath = addLedgerPath;
 window.selectPool = selectPool;
@@ -430,3 +455,5 @@ window.stake = stake;
 window.unstake = unstake;
 window.withdraw = withdraw;
 window.transfer = transfer;
+window.onAccountSelect = onAccountSelect;
+window.refreshStaking = refreshStaking;
