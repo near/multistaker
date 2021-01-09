@@ -178,7 +178,7 @@ function iterPath(start, end) {
 }
 
 async function getAccountsFromKey(publicKey) {
-    const result = await fetch(`https://helper.mainnet.near.org/publicKey/${publicKey}/accountsIndexer`);
+    const result = await fetch(`https://helper.mainnet.near.org/publicKey/${publicKey}/accounts`);
     return result.json();
 }
 
