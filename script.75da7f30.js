@@ -24852,7 +24852,7 @@ function _getAccountsFromKey() {
         switch (_context7.prev = _context7.next) {
           case 0:
             _context7.next = 2;
-            return fetch("https://helper.mainnet.near.org/publicKey/".concat(publicKey, "/accountsIndexer"));
+            return fetch("https://helper.mainnet.near.org/publicKey/".concat(publicKey, "/accounts"));
 
           case 2:
             result = _context7.sent;
@@ -25618,7 +25618,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65456" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51246" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
