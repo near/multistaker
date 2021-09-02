@@ -64,6 +64,7 @@ async function fetchPools(masterAccount) {
     });
     result.next_validators.forEach((validator) => pools.add(validator.account_id));
     result.current_proposals.forEach((validator) => pools.add(validator.account_id));
+    pools.add('aurora.poolv1.near');
     let poolsWithFee = [];
     let promises = []
     pools.forEach((accountId) => {
