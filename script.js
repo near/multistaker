@@ -178,9 +178,18 @@ function iterPath(start, end) {
     return iterPathComp(sComp, eComp).map((item) => item.join('\'/') + '\'');
 }
 
+console.log(nearAPI)
+
 async function getAccountsFromKey(publicKey) {
-    const result = await fetch(`https://helper.mainnet.near.org/publicKey/${publicKey}/accounts`);
-    return result.json();
+    try {
+        const result = await fetch(`https://helper.mainnet.near.org/publicKey/${publicKey}/accounts`);
+        const json = await result.json();
+        return json
+    } catch (e) {
+        // most likely helper was deprecated
+        console.warn(e)
+        return [nearAPI.utils.PublicKey.fromString(publicKey).data.toString('hex')]
+    }
 }
 
 async function addLedgerPath() {
