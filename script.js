@@ -188,7 +188,16 @@ async function getAccountsFromKey(publicKey) {
     } catch (e) {
         // most likely helper was deprecated
         console.warn(e)
-        return [nearAPI.utils.PublicKey.fromString(publicKey).data.toString('hex')]
+        const implicitAccountId = nearAPI.utils.PublicKey.fromString(publicKey).data.toString('hex')
+        let finalAccountId = implicitAccountId
+        const exists = await accountExists(window.near.connection, implicitAccountId)
+        if (!exists) {
+            finalAccountId = window.prompt(`Enter AccountID for publicKey: ${publicKey.toString()}`)
+        }
+        if (!finalAccountId) {
+            alert(`No AccountId found for publicKey: ${publicKey.toString()}`)
+        }
+        return [finalAccountId]
     }
 }
 
