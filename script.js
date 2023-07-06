@@ -5,7 +5,7 @@ import sha256 from 'js-sha256';
 import { encode, decode } from 'bs58';
 import Mustache from 'mustache';
 
-import { createLedgerU2FClient } from './ledger.js'
+import { getSupportedTransport, createClient } from 'near-ledger-js'
 import { format } from 'near-api-js/lib/utils';
 
 const LOCKUP_BASE = 'lockup.near';
@@ -70,7 +70,12 @@ async function fetchPools(masterAccount) {
     pools.forEach((accountId) => {
             promises.push((async () => {
                 let stake = nearAPI.utils.format.formatNearAmount(stakes.get(accountId), 2);
-                let fee = await masterAccount.viewFunction(accountId, 'get_reward_fee_fraction', {});
+                let fee = 0;
+                try {
+                    fee = await masterAccount.viewFunction(accountId, 'get_reward_fee_fraction', {});
+                } catch (error) {
+                   console.error(error);
+                }
                 poolsWithFee.push({ accountId, stake, fee: `${(fee.numerator * 100 / fee.denominator)}%` });
         })());
     });
@@ -208,7 +213,9 @@ async function addLedgerPath() {
     let paths = iterPath(start, end);
     console.log(paths);
     alert(`Found: ${paths.length} paths. Now need to fetch from Ledger. If you want to cancel, refresh the page.`);
-    let client = await createLedgerU2FClient();
+    const transport = await getSupportedTransport();
+    transport.setScrambleKey("NEAR");
+    let client = await createClient(transport);
     let accounts = getAccounts();
     let accountIds = accounts.map(({ accountId }) => accountId);
     for (let i = 0; i < paths.length; ++i) {
@@ -241,7 +248,9 @@ async function addLedgerPath() {
 }
 
 async function setAccountSigner(contract, path, publicKey) {
-    const client = await createLedgerU2FClient();
+    const transport = await getSupportedTransport();
+    transport.setScrambleKey("NEAR");
+    const client = await createClient(transport);
     publicKey = nearAPI.utils.PublicKey.fromString(publicKey);
     let signer = {
         async getPublicKey() {
