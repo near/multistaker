@@ -33792,6 +33792,7 @@ window.onload = function () {
 };
 
 function accountToLockup(masterAccountId, accountId) {
+  console.log(masterAccountId, accountId);
   return "".concat((0, _jsSha.default)(Buffer.from(accountId)).toString('hex').slice(0, 40), ".").concat(masterAccountId);
 }
 
