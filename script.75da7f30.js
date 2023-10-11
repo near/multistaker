@@ -34159,6 +34159,8 @@ function iterPath(start, end) {
   });
 }
 
+console.log(nearAPI);
+
 function getAccountsFromKey(_x4) {
   return _getAccountsFromKey.apply(this, arguments);
 }
@@ -34197,20 +34199,16 @@ function _getAccountsFromKey() {
             exists = _context7.sent;
 
             if (!exists) {
-              finalAccountId = window.prompt("Enter AccountID that you use with this Ledger's public key: ".concat(publicKey.toString()));
+              finalAccountId = window.prompt("Enter AccountID for publicKey: ".concat(publicKey.toString()));
             }
 
-            if (finalAccountId) {
-              _context7.next = 21;
-              break;
+            if (!finalAccountId) {
+              alert("No AccountId found for publicKey: ".concat(publicKey.toString()));
             }
 
-            return _context7.abrupt("return", []);
-
-          case 21:
             return _context7.abrupt("return", [finalAccountId]);
 
-          case 22:
+          case 21:
           case "end":
             return _context7.stop();
         }
@@ -34982,7 +34980,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63541" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57325" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
