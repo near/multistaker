@@ -33967,19 +33967,14 @@ function _loadAccounts() {
             template = document.getElementById('template').innerHTML;
             totalAmount = 0, totalStaked = 0, totalUnstaked = 0;
             _context6.next = 14;
-            return Promise.all(accounts.filter(function (_ref4) {
-              var pk = _ref4.pk,
-                  path = _ref4.path,
-                  accountId = _ref4.accountId;
-              return accountId === null;
-            }).map( /*#__PURE__*/function () {
-              var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(_ref5) {
+            return Promise.all(accounts.map( /*#__PURE__*/function () {
+              var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(_ref4) {
                 var publicKey, path, accountId, lockupAccountId, amount, depositedAmount, stakedAmount, unstakedAmount, canWithdraw, pool, lockupAccount, accountIdShort, lockupIdShort;
                 return regeneratorRuntime.wrap(function _callee5$(_context5) {
                   while (1) {
                     switch (_context5.prev = _context5.next) {
                       case 0:
-                        publicKey = _ref5.publicKey, path = _ref5.path, accountId = _ref5.accountId;
+                        publicKey = _ref4.publicKey, path = _ref4.path, accountId = _ref4.accountId;
                         lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
                         amount = 0, depositedAmount = 0, stakedAmount = 0, unstakedAmount = 0, canWithdraw = false;
                         pool = null;
@@ -34090,7 +34085,7 @@ function _loadAccounts() {
               }));
 
               return function (_x8) {
-                return _ref6.apply(this, arguments);
+                return _ref5.apply(this, arguments);
               };
             }()));
 
@@ -34253,8 +34248,8 @@ function _addLedgerPath() {
           case 12:
             client = _context9.sent;
             accounts = getAccounts();
-            accountIds = accounts.map(function (_ref7) {
-              var accountId = _ref7.accountId;
+            accountIds = accounts.map(function (_ref6) {
+              var accountId = _ref6.accountId;
               return accountId;
             });
             _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop(i) {
@@ -34985,7 +34980,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57325" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54015" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
