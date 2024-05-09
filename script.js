@@ -11,7 +11,7 @@ import { format } from 'near-api-js/lib/utils';
 const LOCKUP_BASE = 'lockup.near';
 
 const options = {
-    nodeUrl: 'https://rpc.mainnet.near.org',
+    nodeUrl: 'https://rpc.web4.near.page',
     networkId: 'mainnet',
     deps: {}
 };
@@ -187,9 +187,9 @@ console.log(nearAPI)
 
 async function getAccountsFromKey(publicKey) {
     try {
-        const result = await fetch(`https://helper.mainnet.near.org/publicKey/${publicKey}/accounts`);
-        const json = await result.json();
-        return json
+        const result = await fetch(`https://api.fastnear.com/v0/public_key/${publicKey}/all`);
+        const { account_ids } = await result.json();
+        return account_ids
     } catch (e) {
         // most likely helper was deprecated
         console.warn(e)
