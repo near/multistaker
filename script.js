@@ -11,7 +11,7 @@ import { format } from 'near-api-js/lib/utils';
 const LOCKUP_BASE = 'lockup.near';
 
 const options = {
-    nodeUrl: 'https://rpc.mainnet.near.org',
+    nodeUrl: 'https://near.lava.build',
     networkId: 'mainnet',
     deps: {}
 };
