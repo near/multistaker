@@ -30879,7 +30879,10 @@ function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 var LOCKUP_BASE = 'lockup.near';
 var options = {
-  nodeUrl: 'https://lb.drpc.org/near/AkfP0BtG5kA3iGbAKCLZiAVc5c-3YDQR8L1IUldpACY1',
+  //    nodeUrl: 'https://free.rpc.fastnear.com/',
+  nodeUrl: 'https://rpc.mainnet.fastnear.com?apiKey=13ac7b5f3f9746dc6edafc7d3d12ae13d4db958e92d55ce8482693eeb00e9f8d',
+  //    nodeUrl: 'https://free.rpc.fastnear.com',
+  //    nodeUrl: 'https://lb.drpc.org/near/AkfP0BtG5kA3iGbAKCLZiAVc5c-3YDQR8L1IUldpACY1',
   networkId: 'mainnet',
   deps: {}
 };
@@ -31873,7 +31876,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49826" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56098" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
