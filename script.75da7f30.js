@@ -31259,14 +31259,43 @@ function _getAccountsFromKey() {
   }));
   return _getAccountsFromKey.apply(this, arguments);
 }
+function addAccountId() {
+  return _addAccountId.apply(this, arguments);
+}
+function _addAccountId() {
+  _addAccountId = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
+    var path, accountId, publicKey;
+    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+      while (1) switch (_context8.prev = _context8.next) {
+        case 0:
+          path = document.querySelector('#addPath').value;
+          accountId = document.querySelector('#addAccountId').value;
+          publicKey = document.querySelector('#addPublicKey').value;
+          accounts = getAccounts();
+          accounts.push({
+            path: path,
+            accountId: accountId,
+            publicKey: publicKey
+          });
+          setAccounts(accounts);
+          _context8.next = 8;
+          return loadAccounts();
+        case 8:
+        case "end":
+          return _context8.stop();
+      }
+    }, _callee8);
+  }));
+  return _addAccountId.apply(this, arguments);
+}
 function addLedgerPath() {
   return _addLedgerPath.apply(this, arguments);
 }
 function _addLedgerPath() {
-  _addLedgerPath = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
+  _addLedgerPath = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
     var start, end, paths, transport, client, accounts, accountIds, _loop, i;
-    return _regeneratorRuntime().wrap(function _callee8$(_context9) {
-      while (1) switch (_context9.prev = _context9.next) {
+    return _regeneratorRuntime().wrap(function _callee9$(_context10) {
+      while (1) switch (_context10.prev = _context10.next) {
         case 0:
           start = document.querySelector('#ledger-start').value;
           end = document.querySelector('#ledger-end').value;
@@ -31274,15 +31303,15 @@ function _addLedgerPath() {
           paths = iterPath(start, end);
           console.log(paths);
           alert("Found: ".concat(paths.length, " paths. Now need to fetch from Ledger. If you want to cancel, refresh the page."));
-          _context9.next = 8;
+          _context10.next = 8;
           return (0, _nearLedgerJs.getSupportedTransport)();
         case 8:
-          transport = _context9.sent;
+          transport = _context10.sent;
           transport.setScrambleKey("NEAR");
-          _context9.next = 12;
+          _context10.next = 12;
           return (0, _nearLedgerJs.createClient)(transport);
         case 12:
-          client = _context9.sent;
+          client = _context10.sent;
           accounts = getAccounts();
           accountIds = accounts.map(function (_ref6) {
             var accountId = _ref6.accountId;
@@ -31290,26 +31319,26 @@ function _addLedgerPath() {
           });
           _loop = /*#__PURE__*/_regeneratorRuntime().mark(function _loop() {
             var path, publicKey, publicKeyStr, curAccounts, implicitAccount;
-            return _regeneratorRuntime().wrap(function _loop$(_context8) {
-              while (1) switch (_context8.prev = _context8.next) {
+            return _regeneratorRuntime().wrap(function _loop$(_context9) {
+              while (1) switch (_context9.prev = _context9.next) {
                 case 0:
                   path = paths[i];
-                  _context8.prev = 1;
-                  _context8.next = 4;
+                  _context9.prev = 1;
+                  _context9.next = 4;
                   return client.getPublicKey(path);
                 case 4:
-                  publicKey = _context8.sent;
+                  publicKey = _context9.sent;
                   publicKeyStr = 'ed25519:' + (0, _bs.encode)(Buffer.from(publicKey));
-                  _context8.next = 8;
+                  _context9.next = 8;
                   return getAccountsFromKey(publicKeyStr);
                 case 8:
-                  curAccounts = _context8.sent;
+                  curAccounts = _context9.sent;
                   implicitAccount = Buffer.from(publicKey).toString('hex');
-                  _context8.next = 12;
+                  _context9.next = 12;
                   return accountExists(window.near.connection, implicitAccount);
                 case 12:
-                  if (!_context8.sent) {
-                    _context8.next = 14;
+                  if (!_context9.sent) {
+                    _context9.next = 14;
                     break;
                   }
                   curAccounts.push(implicitAccount);
@@ -31325,38 +31354,38 @@ function _addLedgerPath() {
                       });
                     }
                   });
-                  _context8.next = 21;
+                  _context9.next = 21;
                   break;
                 case 18:
-                  _context8.prev = 18;
-                  _context8.t0 = _context8["catch"](1);
-                  console.log("".concat(path, " failed: ").concat(_context8.t0));
+                  _context9.prev = 18;
+                  _context9.t0 = _context9["catch"](1);
+                  console.log("".concat(path, " failed: ").concat(_context9.t0));
                 case 21:
                 case "end":
-                  return _context8.stop();
+                  return _context9.stop();
               }
             }, _loop, null, [[1, 18]]);
           });
           i = 0;
         case 17:
           if (!(i < paths.length)) {
-            _context9.next = 22;
+            _context10.next = 22;
             break;
           }
-          return _context9.delegateYield(_loop(), "t0", 19);
+          return _context10.delegateYield(_loop(), "t0", 19);
         case 19:
           ++i;
-          _context9.next = 17;
+          _context10.next = 17;
           break;
         case 22:
           setAccounts(accounts);
-          _context9.next = 25;
+          _context10.next = 25;
           return loadAccounts();
         case 25:
         case "end":
-          return _context9.stop();
+          return _context10.stop();
       }
-    }, _callee8);
+    }, _callee9);
   }));
   return _addLedgerPath.apply(this, arguments);
 }
@@ -31364,63 +31393,63 @@ function setAccountSigner(_x5, _x6, _x7) {
   return _setAccountSigner.apply(this, arguments);
 }
 function _setAccountSigner() {
-  _setAccountSigner = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee11(contract, path, publicKey) {
+  _setAccountSigner = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee12(contract, path, publicKey) {
     var transport, client, signer;
-    return _regeneratorRuntime().wrap(function _callee11$(_context12) {
-      while (1) switch (_context12.prev = _context12.next) {
+    return _regeneratorRuntime().wrap(function _callee12$(_context13) {
+      while (1) switch (_context13.prev = _context13.next) {
         case 0:
-          _context12.next = 2;
+          _context13.next = 2;
           return (0, _nearLedgerJs.getSupportedTransport)();
         case 2:
-          transport = _context12.sent;
+          transport = _context13.sent;
           transport.setScrambleKey("NEAR");
-          _context12.next = 6;
+          _context13.next = 6;
           return (0, _nearLedgerJs.createClient)(transport);
         case 6:
-          client = _context12.sent;
+          client = _context13.sent;
           publicKey = nearAPI.utils.PublicKey.fromString(publicKey);
           signer = {
             getPublicKey: function getPublicKey() {
-              return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
-                return _regeneratorRuntime().wrap(function _callee9$(_context10) {
-                  while (1) switch (_context10.prev = _context10.next) {
-                    case 0:
-                      return _context10.abrupt("return", publicKey);
-                    case 1:
-                    case "end":
-                      return _context10.stop();
-                  }
-                }, _callee9);
-              }))();
-            },
-            signMessage: function signMessage(message) {
               return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
-                var signature;
                 return _regeneratorRuntime().wrap(function _callee10$(_context11) {
                   while (1) switch (_context11.prev = _context11.next) {
                     case 0:
-                      _context11.next = 2;
+                      return _context11.abrupt("return", publicKey);
+                    case 1:
+                    case "end":
+                      return _context11.stop();
+                  }
+                }, _callee10);
+              }))();
+            },
+            signMessage: function signMessage(message) {
+              return _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee11() {
+                var signature;
+                return _regeneratorRuntime().wrap(function _callee11$(_context12) {
+                  while (1) switch (_context12.prev = _context12.next) {
+                    case 0:
+                      _context12.next = 2;
                       return client.sign(message, path);
                     case 2:
-                      signature = _context11.sent;
-                      return _context11.abrupt("return", {
+                      signature = _context12.sent;
+                      return _context12.abrupt("return", {
                         signature: signature,
                         publicKey: publicKey
                       });
                     case 4:
                     case "end":
-                      return _context11.stop();
+                      return _context12.stop();
                   }
-                }, _callee10);
+                }, _callee11);
               }))();
             }
           };
           contract.connection.signer = signer;
         case 10:
         case "end":
-          return _context12.stop();
+          return _context13.stop();
       }
-    }, _callee11);
+    }, _callee12);
   }));
   return _setAccountSigner.apply(this, arguments);
 }
@@ -31442,94 +31471,94 @@ function selectPool() {
   return _selectPool.apply(this, arguments);
 }
 function _selectPool() {
-  _selectPool = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee12() {
+  _selectPool = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee13() {
     var accountId, _findAccount, path, publicKey, poolId, lockupAccountId, currentPool, account;
-    return _regeneratorRuntime().wrap(function _callee12$(_context13) {
-      while (1) switch (_context13.prev = _context13.next) {
+    return _regeneratorRuntime().wrap(function _callee13$(_context14) {
+      while (1) switch (_context14.prev = _context14.next) {
         case 0:
           accountId = document.querySelector('#account-id').value;
           _findAccount = findAccount(accountId), path = _findAccount.path, publicKey = _findAccount.publicKey;
           if (path) {
-            _context13.next = 5;
+            _context14.next = 5;
             break;
           }
           alert("How did you select this?");
-          return _context13.abrupt("return");
+          return _context14.abrupt("return");
         case 5:
           poolId = document.querySelector('#select-pool-id').value;
           lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
           console.log("Select ".concat(poolId, " for ").concat(path, " / ").concat(accountId, " / ").concat(lockupAccountId));
-          _context13.next = 10;
+          _context14.next = 10;
           return accountExists(window.near.connection, poolId);
         case 10:
-          if (_context13.sent) {
-            _context13.next = 13;
+          if (_context14.sent) {
+            _context14.next = 13;
             break;
           }
           alert("Pool ".concat(poolId, " doesn't exist"));
-          return _context13.abrupt("return");
+          return _context14.abrupt("return");
         case 13:
           currentPool = '';
-          _context13.prev = 14;
-          _context13.next = 17;
+          _context14.prev = 14;
+          _context14.next = 17;
           return window.near.account(accountId);
         case 17:
-          account = _context13.sent;
-          _context13.next = 20;
+          account = _context14.sent;
+          _context14.next = 20;
           return account.viewFunction(lockupAccountId, 'get_staking_pool_account_id', {});
         case 20:
-          currentPool = _context13.sent;
-          _context13.next = 27;
+          currentPool = _context14.sent;
+          _context14.next = 27;
           break;
         case 23:
-          _context13.prev = 23;
-          _context13.t0 = _context13["catch"](14);
-          console.log(_context13.t0);
-          alert(_context13.t0);
+          _context14.prev = 23;
+          _context14.t0 = _context14["catch"](14);
+          console.log(_context14.t0);
+          alert(_context14.t0);
         case 27:
           if (!(currentPool && currentPool.length > 0 && currentPool !== poolId)) {
-            _context13.next = 39;
+            _context14.next = 39;
             break;
           }
-          _context13.prev = 28;
-          _context13.next = 31;
+          _context14.prev = 28;
+          _context14.next = 31;
           return setAccountSigner(account, path, publicKey);
         case 31:
-          _context13.next = 33;
+          _context14.next = 33;
           return account.functionCall(lockupAccountId, 'unselect_staking_pool', {}, '25000000000000');
         case 33:
-          _context13.next = 39;
+          _context14.next = 39;
           break;
         case 35:
-          _context13.prev = 35;
-          _context13.t1 = _context13["catch"](28);
-          console.log(_context13.t1);
-          alert(_context13.t1);
+          _context14.prev = 35;
+          _context14.t1 = _context14["catch"](28);
+          console.log(_context14.t1);
+          alert(_context14.t1);
         case 39:
-          _context13.prev = 39;
-          _context13.next = 42;
+          _context14.prev = 39;
+          _context14.next = 42;
           return setAccountSigner(account, path, publicKey);
         case 42:
-          _context13.next = 44;
+          _context14.next = 44;
           return account.functionCall(lockupAccountId, 'select_staking_pool', {
             "staking_pool_account_id": poolId
           }, '100000000000000');
         case 44:
-          _context13.next = 50;
+          _context14.next = 50;
           break;
         case 46:
-          _context13.prev = 46;
-          _context13.t2 = _context13["catch"](39);
-          console.log(_context13.t2);
-          alert(_context13.t2);
+          _context14.prev = 46;
+          _context14.t2 = _context14["catch"](39);
+          console.log(_context14.t2);
+          alert(_context14.t2);
         case 50:
-          _context13.next = 52;
+          _context14.next = 52;
           return loadAccounts();
         case 52:
         case "end":
-          return _context13.stop();
+          return _context14.stop();
       }
-    }, _callee12, null, [[14, 23], [28, 35], [39, 46]]);
+    }, _callee13, null, [[14, 23], [28, 35], [39, 46]]);
   }));
   return _selectPool.apply(this, arguments);
 }
@@ -31537,73 +31566,15 @@ function stake() {
   return _stake.apply(this, arguments);
 }
 function _stake() {
-  _stake = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee13() {
+  _stake = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee14() {
     var accountId, _findAccount2, path, publicKey, amount, lockupAccountId, account;
-    return _regeneratorRuntime().wrap(function _callee13$(_context14) {
-      while (1) switch (_context14.prev = _context14.next) {
+    return _regeneratorRuntime().wrap(function _callee14$(_context15) {
+      while (1) switch (_context15.prev = _context15.next) {
         case 0:
           accountId = document.querySelector('#account-id').value;
           _findAccount2 = findAccount(accountId), path = _findAccount2.path, publicKey = _findAccount2.publicKey;
           amount = document.querySelector('#stake-amount').value;
           console.log("Stake ".concat(amount, " from ").concat(path, " / ").concat(accountId));
-          amount = nearAPI.utils.format.parseNearAmount(amount);
-          lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
-          _context14.prev = 6;
-          _context14.next = 9;
-          return window.near.account(accountId);
-        case 9:
-          account = _context14.sent;
-          _context14.next = 12;
-          return account.viewFunction(lockupAccountId, 'get_staking_pool_account_id', {});
-        case 12:
-          pool = _context14.sent;
-          if (pool) {
-            _context14.next = 16;
-            break;
-          }
-          alert("Lockup ".concat(lockupAccountId, " doesn't have pool selected yet"));
-          return _context14.abrupt("return");
-        case 16:
-          _context14.next = 18;
-          return setAccountSigner(account, path, publicKey);
-        case 18:
-          _context14.next = 20;
-          return account.functionCall(lockupAccountId, 'deposit_and_stake', {
-            'amount': amount
-          }, '200000000000000');
-        case 20:
-          _context14.next = 26;
-          break;
-        case 22:
-          _context14.prev = 22;
-          _context14.t0 = _context14["catch"](6);
-          console.log(_context14.t0);
-          alert(_context14.t0);
-        case 26:
-          window.localStorage.setItem('last-stake-time', new Date());
-          _context14.next = 29;
-          return loadAccounts();
-        case 29:
-        case "end":
-          return _context14.stop();
-      }
-    }, _callee13, null, [[6, 22]]);
-  }));
-  return _stake.apply(this, arguments);
-}
-function unstake() {
-  return _unstake.apply(this, arguments);
-}
-function _unstake() {
-  _unstake = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee14() {
-    var accountId, _findAccount3, path, publicKey, amount, lockupAccountId, account;
-    return _regeneratorRuntime().wrap(function _callee14$(_context15) {
-      while (1) switch (_context15.prev = _context15.next) {
-        case 0:
-          accountId = document.querySelector('#account-id').value;
-          _findAccount3 = findAccount(accountId), path = _findAccount3.path, publicKey = _findAccount3.publicKey;
-          amount = document.querySelector('#unstake-amount').value;
-          console.log("Unstake ".concat(amount, " from ").concat(path, " / ").concat(accountId));
           amount = nearAPI.utils.format.parseNearAmount(amount);
           lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
           _context15.prev = 6;
@@ -31625,52 +31596,43 @@ function _unstake() {
           _context15.next = 18;
           return setAccountSigner(account, path, publicKey);
         case 18:
-          if (!(amount == "0" || !amount)) {
-            _context15.next = 23;
-            break;
-          }
-          _context15.next = 21;
-          return account.functionCall(lockupAccountId, 'unstake_all', {}, '200000000000000');
-        case 21:
-          _context15.next = 25;
-          break;
-        case 23:
-          _context15.next = 25;
-          return account.functionCall(lockupAccountId, 'unstake', {
+          _context15.next = 20;
+          return account.functionCall(lockupAccountId, 'deposit_and_stake', {
             'amount': amount
           }, '200000000000000');
-        case 25:
-          _context15.next = 31;
+        case 20:
+          _context15.next = 26;
           break;
-        case 27:
-          _context15.prev = 27;
+        case 22:
+          _context15.prev = 22;
           _context15.t0 = _context15["catch"](6);
           console.log(_context15.t0);
           alert(_context15.t0);
-        case 31:
-          _context15.next = 33;
+        case 26:
+          window.localStorage.setItem('last-stake-time', new Date());
+          _context15.next = 29;
           return loadAccounts();
-        case 33:
+        case 29:
         case "end":
           return _context15.stop();
       }
-    }, _callee14, null, [[6, 27]]);
+    }, _callee14, null, [[6, 22]]);
   }));
+  return _stake.apply(this, arguments);
+}
+function unstake() {
   return _unstake.apply(this, arguments);
 }
-function withdraw() {
-  return _withdraw.apply(this, arguments);
-}
-function _withdraw() {
-  _withdraw = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee15() {
-    var accountId, _findAccount4, path, publicKey, amount, lockupAccountId, account;
+function _unstake() {
+  _unstake = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee15() {
+    var accountId, _findAccount3, path, publicKey, amount, lockupAccountId, account;
     return _regeneratorRuntime().wrap(function _callee15$(_context16) {
       while (1) switch (_context16.prev = _context16.next) {
         case 0:
           accountId = document.querySelector('#account-id').value;
-          _findAccount4 = findAccount(accountId), path = _findAccount4.path, publicKey = _findAccount4.publicKey;
-          amount = document.querySelector('#withdraw-amount').value;
-          console.log("Withdraw ".concat(amount, " from ").concat(path, " / ").concat(accountId));
+          _findAccount3 = findAccount(accountId), path = _findAccount3.path, publicKey = _findAccount3.publicKey;
+          amount = document.querySelector('#unstake-amount').value;
+          console.log("Unstake ".concat(amount, " from ").concat(path, " / ").concat(accountId));
           amount = nearAPI.utils.format.parseNearAmount(amount);
           lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
           _context16.prev = 6;
@@ -31697,13 +31659,13 @@ function _withdraw() {
             break;
           }
           _context16.next = 21;
-          return account.functionCall(lockupAccountId, 'withdraw_all_from_staking_pool', {}, '200000000000000');
+          return account.functionCall(lockupAccountId, 'unstake_all', {}, '200000000000000');
         case 21:
           _context16.next = 25;
           break;
         case 23:
           _context16.next = 25;
-          return account.functionCall(lockupAccountId, 'withdraw_from_staking_pool', {
+          return account.functionCall(lockupAccountId, 'unstake', {
             'amount': amount
           }, '200000000000000');
         case 25:
@@ -31723,16 +31685,83 @@ function _withdraw() {
       }
     }, _callee15, null, [[6, 27]]);
   }));
+  return _unstake.apply(this, arguments);
+}
+function withdraw() {
+  return _withdraw.apply(this, arguments);
+}
+function _withdraw() {
+  _withdraw = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee16() {
+    var accountId, _findAccount4, path, publicKey, amount, lockupAccountId, account;
+    return _regeneratorRuntime().wrap(function _callee16$(_context17) {
+      while (1) switch (_context17.prev = _context17.next) {
+        case 0:
+          accountId = document.querySelector('#account-id').value;
+          _findAccount4 = findAccount(accountId), path = _findAccount4.path, publicKey = _findAccount4.publicKey;
+          amount = document.querySelector('#withdraw-amount').value;
+          console.log("Withdraw ".concat(amount, " from ").concat(path, " / ").concat(accountId));
+          amount = nearAPI.utils.format.parseNearAmount(amount);
+          lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
+          _context17.prev = 6;
+          _context17.next = 9;
+          return window.near.account(accountId);
+        case 9:
+          account = _context17.sent;
+          _context17.next = 12;
+          return account.viewFunction(lockupAccountId, 'get_staking_pool_account_id', {});
+        case 12:
+          pool = _context17.sent;
+          if (pool) {
+            _context17.next = 16;
+            break;
+          }
+          alert("Lockup ".concat(lockupAccountId, " doesn't have pool selected yet"));
+          return _context17.abrupt("return");
+        case 16:
+          _context17.next = 18;
+          return setAccountSigner(account, path, publicKey);
+        case 18:
+          if (!(amount == "0" || !amount)) {
+            _context17.next = 23;
+            break;
+          }
+          _context17.next = 21;
+          return account.functionCall(lockupAccountId, 'withdraw_all_from_staking_pool', {}, '200000000000000');
+        case 21:
+          _context17.next = 25;
+          break;
+        case 23:
+          _context17.next = 25;
+          return account.functionCall(lockupAccountId, 'withdraw_from_staking_pool', {
+            'amount': amount
+          }, '200000000000000');
+        case 25:
+          _context17.next = 31;
+          break;
+        case 27:
+          _context17.prev = 27;
+          _context17.t0 = _context17["catch"](6);
+          console.log(_context17.t0);
+          alert(_context17.t0);
+        case 31:
+          _context17.next = 33;
+          return loadAccounts();
+        case 33:
+        case "end":
+          return _context17.stop();
+      }
+    }, _callee16, null, [[6, 27]]);
+  }));
   return _withdraw.apply(this, arguments);
 }
 function transfer() {
   return _transfer.apply(this, arguments);
 }
 function _transfer() {
-  _transfer = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee16() {
+  _transfer = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee17() {
     var accountId, _findAccount5, path, publicKey, receiver_id, amount, lockupAccountId, account;
-    return _regeneratorRuntime().wrap(function _callee16$(_context17) {
-      while (1) switch (_context17.prev = _context17.next) {
+    return _regeneratorRuntime().wrap(function _callee17$(_context18) {
+      while (1) switch (_context18.prev = _context18.next) {
         case 0:
           accountId = document.querySelector('#account-id').value;
           _findAccount5 = findAccount(accountId), path = _findAccount5.path, publicKey = _findAccount5.publicKey;
@@ -31741,52 +31770,52 @@ function _transfer() {
           console.log("Transfer ".concat(amount, " from ").concat(path, " / ").concat(accountId, " to ").concat(receiver_id));
           amount = nearAPI.utils.format.parseNearAmount(amount);
           lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
-          _context17.prev = 7;
-          _context17.next = 10;
+          _context18.prev = 7;
+          _context18.next = 10;
           return window.near.account(accountId);
         case 10:
-          account = _context17.sent;
-          _context17.next = 13;
+          account = _context18.sent;
+          _context18.next = 13;
           return setAccountSigner(account, path, publicKey);
         case 13:
-          _context17.next = 15;
+          _context18.next = 15;
           return accountExists(window.near.connection, lockupAccountId);
         case 15:
-          if (!_context17.sent) {
-            _context17.next = 23;
+          if (!_context18.sent) {
+            _context18.next = 23;
             break;
           }
-          _context17.next = 18;
+          _context18.next = 18;
           return account.viewFunction(lockupAccountId, 'are_transfers_enabled');
         case 18:
-          if (_context17.sent) {
-            _context17.next = 21;
+          if (_context18.sent) {
+            _context18.next = 21;
             break;
           }
-          _context17.next = 21;
+          _context18.next = 21;
           return account.functionCall(lockupAccountId, 'check_transfers_vote', {}, '100000000000000');
         case 21:
-          _context17.next = 23;
+          _context18.next = 23;
           return account.functionCall(lockupAccountId, 'transfer', {
             amount: amount,
             receiver_id: receiver_id
           }, '100000000000000');
         case 23:
-          _context17.next = 29;
+          _context18.next = 29;
           break;
         case 25:
-          _context17.prev = 25;
-          _context17.t0 = _context17["catch"](7);
-          console.log(_context17.t0);
-          alert(_context17.t0);
+          _context18.prev = 25;
+          _context18.t0 = _context18["catch"](7);
+          console.log(_context18.t0);
+          alert(_context18.t0);
         case 29:
-          _context17.next = 31;
+          _context18.next = 31;
           return loadAccounts();
         case 31:
         case "end":
-          return _context17.stop();
+          return _context18.stop();
       }
-    }, _callee16, null, [[7, 25]]);
+    }, _callee17, null, [[7, 25]]);
   }));
   return _transfer.apply(this, arguments);
 }
@@ -31794,47 +31823,47 @@ function refreshStaking() {
   return _refreshStaking.apply(this, arguments);
 }
 function _refreshStaking() {
-  _refreshStaking = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee17() {
+  _refreshStaking = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee18() {
     var accountId, _findAccount6, path, publicKey, lockupAccountId, account;
-    return _regeneratorRuntime().wrap(function _callee17$(_context18) {
-      while (1) switch (_context18.prev = _context18.next) {
+    return _regeneratorRuntime().wrap(function _callee18$(_context19) {
+      while (1) switch (_context19.prev = _context19.next) {
         case 0:
           accountId = document.querySelector('#account-id').value;
           _findAccount6 = findAccount(accountId), path = _findAccount6.path, publicKey = _findAccount6.publicKey;
           lockupAccountId = accountToLockup(LOCKUP_BASE, accountId);
-          _context18.prev = 3;
-          _context18.next = 6;
+          _context19.prev = 3;
+          _context19.next = 6;
           return window.near.account(accountId);
         case 6:
-          account = _context18.sent;
-          _context18.next = 9;
+          account = _context19.sent;
+          _context19.next = 9;
           return setAccountSigner(account, path, publicKey);
         case 9:
-          _context18.next = 11;
+          _context19.next = 11;
           return accountExists(window.near.connection, lockupAccountId);
         case 11:
-          if (!_context18.sent) {
-            _context18.next = 14;
+          if (!_context19.sent) {
+            _context19.next = 14;
             break;
           }
-          _context18.next = 14;
+          _context19.next = 14;
           return account.functionCall(lockupAccountId, 'refresh_staking_pool_balance', {}, '100000000000000');
         case 14:
-          _context18.next = 20;
+          _context19.next = 20;
           break;
         case 16:
-          _context18.prev = 16;
-          _context18.t0 = _context18["catch"](3);
-          console.log(_context18.t0);
-          alert(_context18.t0);
+          _context19.prev = 16;
+          _context19.t0 = _context19["catch"](3);
+          console.log(_context19.t0);
+          alert(_context19.t0);
         case 20:
-          _context18.next = 22;
+          _context19.next = 22;
           return loadAccounts();
         case 22:
         case "end":
-          return _context18.stop();
+          return _context19.stop();
       }
-    }, _callee17, null, [[3, 16]]);
+    }, _callee18, null, [[3, 16]]);
   }));
   return _refreshStaking.apply(this, arguments);
 }
@@ -31844,6 +31873,7 @@ function onAccountSelect() {
 }
 window.nearAPI = nearAPI;
 window.addLedgerPath = addLedgerPath;
+window.addAccountId = addAccountId;
 window.selectPool = selectPool;
 window.stake = stake;
 window.unstake = unstake;
@@ -31876,7 +31906,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56098" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61116" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
